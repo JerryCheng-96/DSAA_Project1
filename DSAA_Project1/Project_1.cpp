@@ -2,7 +2,7 @@
 #include <string>
 #include <ctime>
 
-#define CLISTSIZE 10000
+#define CLISTSIZE 100
 
 using namespace std;
 
@@ -85,7 +85,6 @@ public:
 
 
 //节点类
-//template<typename E>
 class Link
 {
 public:
@@ -107,15 +106,40 @@ public:
 	//~Link(){}
 };
 
+//列表总类
+class Lists {
+public:
+	virtual void append(City*) = 0;
+};
 
-//无序 含头节点的单链表
-class LinkedList
-{
+//链表总类
+class LList: public Lists {
 public:
 	Link* head;
 	Link* curr;
 	Link* tail;
 	int cnt;
+
+	virtual void reset() = 0;
+	//virtual void next() = 0;
+	virtual void append(City*) = 0;
+};
+
+//数组总类
+class ArrayList: public Lists {
+public:
+	City** elements;
+	int cnt;
+	int curr;
+	int MAXLEN;
+
+	virtual void append(City*) = 0;
+};
+
+//无序 含头节点的单链表
+class LinkedList: public LList
+{
+public:
 
 	//构造
 	LinkedList()
@@ -294,14 +318,9 @@ private:
 };
 
 //无序 顺序表
-class AList
+class AList: public ArrayList
 {
 public:
-	City** elements;
-	int cnt;
-	int curr;
-	int MAXLEN;
-
 	AList(int maxlen)
 	{
 		elements = new City*[maxlen];
@@ -495,13 +514,9 @@ private:
 };
 
 //姓名字母顺序 含头节点的单链表
-class S_LinkedList
+class S_LinkedList: public LList
 {
 public:
-	Link* head;
-	Link* curr;
-	Link* tail;
-	int cnt;
 
 	//构造
 	S_LinkedList()
@@ -670,13 +685,9 @@ private:
 };
 
 //姓名字母顺序 顺序表
-class S_AList
+class S_AList: public ArrayList
 {
 public:
-	City** elements;
-	int cnt;
-	int curr;
-	int MAXLEN;
 
 	S_AList(int maxlen)
 	{
@@ -845,20 +856,10 @@ private:
 
 void genRandomCities(City * cityList[], int n);
 
-void fillLists(LinkedList* list, City* ori[], int size);
-void fillLists(AList* list, City* ori[], int size);
-void fillLists(S_LinkedList* list, City* ori[], int size);
-void fillLists(S_AList* list, City* ori[], int size);
+void fillLists(Lists* list, City* ori[], int size);
 
-void printList(LinkedList* list);
-void printList(AList* list);
-void printList(S_LinkedList* list);
-void printList(S_AList* list);
-
-clock_t testDeleteByName(LinkedList* list, City** cityList);
-clock_t testDeleteByName(AList* list, City** cityList);
-clock_t testDeleteByName(S_LinkedList* list, City** cityList);
-clock_t testDeleteByName(S_AList* list, City** cityList);
+void printList(LList* list);
+void printList(ArrayList* list);
 
 
 void main() {
@@ -868,13 +869,13 @@ void main() {
 	genRandomCities(cityList2, 10);
 	clock_t start;
 	clock_t end;
-	/*
+	
 	for (int i = 0; i < CLISTSIZE; i++)
 	{
 		cityList[i]->print();
 	}
 	cout << endl << endl;
-	*/
+	
 	cout << "n = " << CLISTSIZE << endl;
 	cout << CLOCKS_PER_SEC << endl;
 	LinkedList* lList = new LinkedList();
@@ -882,34 +883,34 @@ void main() {
 	fillLists(lList, cityList, CLISTSIZE);
 	end = clock();
 	cout << "LL " << (end - start) << endl;
-	//printList(lList);
+	printList(lList);
 	
-	//system("pause");
+	system("pause");
 	
 	S_LinkedList* SLList = new S_LinkedList();
 	start = clock();
 	fillLists(SLList, cityList, CLISTSIZE);
 	end = clock();
 	cout << "SLL " << (end - start) << endl;
-	//printList(SLList);
+	printList(SLList);
 
-	//system("pause");
+	system("pause");
 
 	AList* aList = new AList(CLISTSIZE);
 	start = clock();
 	fillLists(aList, cityList, CLISTSIZE);
 	end = clock();
 	cout << "AL " << (end - start) << endl;
-	//printList(aList);
+	printList(aList);
 
-	//system("pause");
+	system("pause");
 
 	S_AList* SAList = new S_AList(CLISTSIZE);
 	start = clock();
 	fillLists(SAList, cityList, CLISTSIZE);
 	end = clock();
 	cout << "SAL " << (end - start) << endl;
-	//printList(SAList);
+	printList(SAList);
 
 	//testDeleteByName(SAList, cityList);
 }
@@ -940,119 +941,28 @@ void genRandomCities(City * cityList[], int n)
 	}
 }
 
-void fillLists(LinkedList* list, City* ori[], int size) {
+void fillLists(Lists* list, City* ori[], int size) {
 	for (int i = 0; i < size; i++)
 	{
 		list->append(ori[i]);
 	}
 }
 
-void fillLists(S_LinkedList* list, City* ori[], int size) {
-	for (int i = 0; i < size; i++)
-	{
-		list->append(ori[i]);
-	}
-}
 
-void fillLists(AList* list, City* ori[], int size) {
-	for (int i = 0; i < size; i++)
-	{
-		list->append(ori[i]);
-	}
-}
-
-void fillLists(S_AList* list, City* ori[], int size) {
-	for (int i = 0; i < size; i++)
-	{
-		list->append(ori[i]);
-	}
-}
-
-void printList(LinkedList* list) {
+void printList(LList* list) {
 	list->reset();
 	while (list->curr->next != NULL)
 	{
-		list->next();
+		list->curr = list->curr->next;
 		list->curr->element->print();
 	}
 }
 
-void printList(S_LinkedList* list) {
-	list->reset();
-	while (list->curr->next != NULL)
-	{
-		list->next();
-		list->curr->element->print();
-	}
-}
-
-void printList(AList* list) {
+void printList(ArrayList* list) {
 	for (int i = 0; i < list->MAXLEN; i++)
 	{
 		list->elements[i]->print();
 	}
 }
 
-void printList(S_AList* list) {
-	for (int i = 0; i < list->MAXLEN; i++)
-	{
-		list->elements[i]->print();
-	}
-}
 
-clock_t testDeleteByName(LinkedList * list, City ** cityList)
-{
-	clock_t start;
-	clock_t end;
-
-	srand(time(NULL));
-	string nameToDelete = cityList[rand() % CLISTSIZE]->getName();
-	start = clock();
-	list->deleteBy(nameToDelete);
-	end = clock();
-	return end - start;
-}
-
-clock_t testDeleteByName(AList * list, City ** cityList)
-{
-	clock_t start;
-	clock_t end;
-
-	srand(time(NULL));
-	string nameToDelete = cityList[rand() % CLISTSIZE]->getName();
-	start = clock();
-	list->deleteBy(nameToDelete);
-	end = clock();
-	return end - start;
-}
-
-clock_t testDeleteByName(S_LinkedList * list, City ** cityList)
-{
-	clock_t start;
-	clock_t end;
-
-	srand(time(NULL));
-	string nameToDelete = cityList[rand() % CLISTSIZE]->getName();
-	start = clock();
-	list->deleteBy(nameToDelete, 0, CLISTSIZE);
-	end = clock();
-	return end - start;
-}
-
-clock_t testDeleteByName(S_AList * list, City ** cityList)
-{
-	clock_t start;
-	clock_t end;
-	clock_t total;
-
-	srand(time(NULL));
-	
-	start = clock();
-	for (int i = 0; i < 100; i++)
-	{
-		string nameToDelete = cityList[rand() % CLISTSIZE]->getName();
-		list->deleteBy(nameToDelete, 0, CLISTSIZE);
-	}
-	end = clock();
-	return end - start;
-}
