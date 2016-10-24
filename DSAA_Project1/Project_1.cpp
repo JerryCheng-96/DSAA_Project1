@@ -945,7 +945,7 @@ void printList(LList* list);
 void printList(ArrayList* list);
 
 void testSearch(LList* list, City** cityList);
-void testSearch(ArrayList* list);
+void testSearch(ArrayList* list, City** cityList);
 
 
 void main() {
@@ -985,10 +985,44 @@ void main() {
 	fillLists(SAList, cityList, CLISTSIZE);
 
 	cout << endl;
-	cout << "Testing search..." << endl;
+	cout << "Printing Origin List" << endl;
 	printList(lList);
+
+	system("pause");
+	system("cls");
+
+	cout << endl;
+	cout << "Testing search I" << endl;
+	//printList(lList);
+	testSearch(lList, cityList);
 	testSearch(lList, cityList2);
-		
+
+	system("pause");
+	system("cls");
+
+	cout << endl;
+	cout << "Testing search II..." << endl;
+	//printList(SLList);
+	testSearch(SLList, cityList);
+	testSearch(SLList, cityList2);
+	
+	system("pause");
+	system("cls");
+
+	cout << endl;
+	cout << "Testing search III..." << endl;
+	//printList(aList);
+	testSearch(aList, cityList);
+	testSearch(aList, cityList2);
+
+	system("pause");
+	system("cls");
+
+	cout << endl;
+	cout << "Testing search IV..." << endl;
+	//printList(SAList);
+	testSearch(SAList, cityList);
+	testSearch(SAList, cityList2);
 }
 
 void genRandomCities(City * cityList[], int n)
@@ -1048,7 +1082,7 @@ void testSearch(LList * list, City** cityList)
 
 	srand(time(NULL));
 
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 10; i++)
 	{
 		elementFound = NULL;
 		randNo = rand() % CLISTSIZE;
@@ -1070,6 +1104,38 @@ void testSearch(LList * list, City** cityList)
 			cout << "Not found." << endl;
 		}
 		
+	}
+}
+
+void testSearch(ArrayList* list, City** cityList)
+{
+	int randNo;
+	City* elementFound = NULL;
+
+	srand(time(NULL));
+
+	for (int i = 0; i < 10; i++)
+	{
+		elementFound = NULL;
+		randNo = rand() % CLISTSIZE;
+
+		cout << endl;
+		cout << "The selected element: ";
+		cityList[randNo]->print();
+		cout << endl;
+
+		elementFound = list->searchBy(cityList[randNo]->getName());
+
+		if (elementFound)
+		{
+			cout << "The found element: ";
+			elementFound->print();
+			cout << endl;
+		}
+		else {
+			cout << "Not found." << endl;
+		}
+
 	}
 }
 
