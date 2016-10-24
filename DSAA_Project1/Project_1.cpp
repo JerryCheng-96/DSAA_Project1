@@ -83,7 +83,6 @@ public:
 	}
 };
 
-
 //节点类
 class Link
 {
@@ -123,6 +122,7 @@ public:
 	virtual void reset() = 0;
 	//virtual void next() = 0;
 	virtual void append(City*) = 0;
+	virtual Link* searchBy(const string&) = 0;
 };
 
 //数组总类
@@ -134,6 +134,7 @@ public:
 	int MAXLEN;
 
 	virtual void append(City*) = 0;
+	virtual City* searchBy(const string&) = 0;
 };
 
 //无序 含头节点的单链表
@@ -276,6 +277,7 @@ public:
 				return curr->next;
 			}
 		}
+		return NULL;
 	}
 
 	Link* searchBy(const int target[])
@@ -616,6 +618,44 @@ public:
 		}
 	}
 
+	Link* searchBy(const string& target) {
+		int headNo = 0;
+		int tailNo = cnt - 1;
+		int nowNo = (headNo + tailNo) / 2;
+		
+		Link* nowPos = forwardTo(nowNo);
+
+		while (!(headNo == nowNo && headNo == (tailNo - 1)))
+		{
+			if (nowPos->element->getName() > target)
+			{
+				tailNo = nowNo;
+			}
+			else if (nowPos->element->getName() < target)
+			{
+				headNo = nowNo;
+			}
+			else if (nowPos->element->getName() == target)
+			{
+				return nowPos;
+			}
+			nowNo = (headNo + tailNo) / 2;
+			nowPos = forwardTo(nowNo);
+		}
+
+		nowPos = forwardTo(headNo);
+		if (nowPos->element->getName() == target)
+		{
+			return nowPos;
+		}
+		nowPos = forwardTo(tailNo);
+		if (nowPos->element->getName() == target)
+		{
+			return nowPos;
+		}
+		return NULL;
+	}
+
 	/*
 	Link* searchBy(const int target[])
 	{
@@ -682,6 +722,14 @@ private:
 		return x*x;
 	}
 
+	Link* forwardTo(int n) {
+		Link* priCurr = head;
+		for (int i = 0; i < n && i < cnt; i++)
+		{
+			priCurr = priCurr->next;
+		}
+		return priCurr;
+	}
 };
 
 //姓名字母顺序 顺序表
@@ -765,6 +813,41 @@ public:
 		{
 			return elements[curr];
 		}
+	}
+
+	City* searchBy(const string& target) {
+		int headNo = 0;
+		int tailNo = cnt - 1;
+		int nowNo = (headNo + tailNo) / 2;
+
+		while (!(headNo == nowNo && headNo == (tailNo - 1)))
+		{
+			if (elements[nowNo]->getName() > target)
+			{
+				tailNo = nowNo;
+			}
+			else if (elements[nowNo]->getName() < target)
+			{
+				headNo = nowNo;
+			}
+			else if (elements[nowNo]->getName() == target)
+			{
+				return elements[nowNo];
+			}
+			nowNo = (headNo + tailNo) / 2;
+		}
+
+		nowNo = headNo;
+		if (elements[nowNo]->getName() == target)
+		{
+			return elements[nowNo];
+		}
+		nowNo = tailNo;
+		if (elements[nowNo]->getName() == target)
+		{
+			return elements[nowNo];
+		}
+		return NULL;
 	}
 
 	//二分法搜索并删除一条记录（根据名称）
@@ -861,58 +944,51 @@ void fillLists(Lists* list, City* ori[], int size);
 void printList(LList* list);
 void printList(ArrayList* list);
 
+void testSearch(LList* list, City** cityList);
+void testSearch(ArrayList* list);
+
 
 void main() {
+	//Generating main city list
 	City * cityList[CLISTSIZE];
 	genRandomCities(cityList, CLISTSIZE);
-	City * cityList2[10];
-	genRandomCities(cityList2, 10);
+
+	//Generating auxillary city list
+	City * cityList2[CLISTSIZE];
+	genRandomCities(cityList2, CLISTSIZE);
+
+	//Variables for timing
 	clock_t start;
 	clock_t end;
 	
+	//Print main city list
 	for (int i = 0; i < CLISTSIZE; i++)
 	{
 		cityList[i]->print();
 	}
 	cout << endl << endl;
 	
+	//Print test parameters
 	cout << "n = " << CLISTSIZE << endl;
-	cout << CLOCKS_PER_SEC << endl;
+	//cout << CLOCKS_PER_SEC << endl;
+
+	//Initializing list variables
 	LinkedList* lList = new LinkedList();
-	start = clock();
-	fillLists(lList, cityList, CLISTSIZE);
-	end = clock();
-	cout << "LL " << (end - start) << endl;
-	printList(lList);
-	
-	system("pause");
-	
 	S_LinkedList* SLList = new S_LinkedList();
-	start = clock();
-	fillLists(SLList, cityList, CLISTSIZE);
-	end = clock();
-	cout << "SLL " << (end - start) << endl;
-	printList(SLList);
-
-	system("pause");
-
 	AList* aList = new AList(CLISTSIZE);
-	start = clock();
-	fillLists(aList, cityList, CLISTSIZE);
-	end = clock();
-	cout << "AL " << (end - start) << endl;
-	printList(aList);
-
-	system("pause");
-
 	S_AList* SAList = new S_AList(CLISTSIZE);
-	start = clock();
-	fillLists(SAList, cityList, CLISTSIZE);
-	end = clock();
-	cout << "SAL " << (end - start) << endl;
-	printList(SAList);
 
-	//testDeleteByName(SAList, cityList);
+	//Copy main city list
+	fillLists(lList, cityList, CLISTSIZE);
+	fillLists(SLList, cityList, CLISTSIZE);
+	fillLists(aList, cityList, CLISTSIZE);
+	fillLists(SAList, cityList, CLISTSIZE);
+
+	cout << endl;
+	cout << "Testing search..." << endl;
+	printList(lList);
+	testSearch(lList, cityList2);
+		
 }
 
 void genRandomCities(City * cityList[], int n)
@@ -920,7 +996,7 @@ void genRandomCities(City * cityList[], int n)
 	char nowName[11] = { '\0' };
 	int nowCoo[2] = { -1, -1 };
 
-	srand(time(NULL));		//Setting the seed of random number
+	//Setting the seed of random number
 
 	for (int i = 0; i < n; i++)
 	{
@@ -962,6 +1038,38 @@ void printList(ArrayList* list) {
 	for (int i = 0; i < list->MAXLEN; i++)
 	{
 		list->elements[i]->print();
+	}
+}
+
+void testSearch(LList * list, City** cityList)
+{
+	int randNo;
+	Link* elementFound = NULL;
+
+	srand(time(NULL));
+
+	for (int i = 0; i < 5; i++)
+	{
+		elementFound = NULL;
+		randNo = rand() % CLISTSIZE;
+
+		cout << endl;
+		cout << "The selected element: ";
+		cityList[randNo]->print();
+		cout << endl;
+
+		elementFound = list->searchBy(cityList[randNo]->getName());
+
+		if (elementFound)
+		{
+			cout << "The found element: ";
+			elementFound->element->print();
+			cout << endl;
+		}
+		else {
+			cout << "Not found." << endl;
+		}
+		
 	}
 }
 
