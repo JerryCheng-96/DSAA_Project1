@@ -62,22 +62,24 @@ void genCityDB(const char * name)
 void genAllTestDB()
 {
 	string* name1 = new string("CityList1_" + to_string(CLISTSIZE) + ".dat");
+	string* name1s = new string("CityList1_" + to_string(CLISTSIZE) + "_Sorted.dat");
 	genCityDB(name1->c_str());
 	S_LinkedList* SLL = new S_LinkedList();
 	City * cityList[CLISTSIZE];
 	readCityList(cityList, name1->c_str());
 	fillLists(SLL, cityList, CLISTSIZE);
-	saveCityList(SLL, name1->c_str());
+	saveCityList(SLL, name1s->c_str());
 
 	system("pause");
 
 	string* name2 = new string("CityList2_" + to_string(CLISTSIZE) + ".dat");
+	string* name2s = new string("CityList2_" + to_string(CLISTSIZE) + "_Sorted.dat");
 	genCityDB(name2->c_str());
 	S_LinkedList* SLL2 = new S_LinkedList();
 	City * cityList2[CLISTSIZE];
 	readCityList(cityList2, name2->c_str());
 	fillLists(SLL2, cityList2, CLISTSIZE);
-	saveCityList(SLL2, name2->c_str());
+	saveCityList(SLL2, name2s->c_str());
 
 }
 
@@ -246,7 +248,9 @@ void testSearch(ArrayList* list, City** cityList)
 }
 
 void main() {
+	
 	genAllTestDB();
+	
 	/*
 	City * cityList[CLISTSIZE];
 	readCityList(cityList, "cityList1.dat");
