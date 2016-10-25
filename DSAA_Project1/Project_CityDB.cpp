@@ -2,8 +2,6 @@
 #include <string>
 #include <ctime>
 
-#define CLISTSIZE 100
-
 using namespace std;
 
 //Source Code
@@ -123,6 +121,12 @@ public:
 	//virtual void next() = 0;
 	virtual void append(City*) = 0;
 	virtual Link* searchBy(const string&) = 0;
+
+	void justAppend(City* target) {
+		tail->next = new Link(target, NULL);
+		tail = tail->next;
+		cnt++;
+	}
 };
 
 //数组总类
@@ -932,211 +936,5 @@ private:
 		return x*x;
 	}
 };
-
-
-//Test Drives
-//***********
-
-void genRandomCities(City * cityList[], int n);
-
-void fillLists(Lists* list, City* ori[], int size);
-
-void printList(LList* list);
-void printList(ArrayList* list);
-
-void testSearch(LList* list, City** cityList);
-void testSearch(ArrayList* list, City** cityList);
-
-
-void main() {
-	//Generating main city list
-	City * cityList[CLISTSIZE];
-	genRandomCities(cityList, CLISTSIZE);
-
-	//Generating auxillary city list
-	City * cityList2[CLISTSIZE];
-	genRandomCities(cityList2, CLISTSIZE);
-
-	//Variables for timing
-	clock_t start;
-	clock_t end;
-	
-	//Print main city list
-	for (int i = 0; i < CLISTSIZE; i++)
-	{
-		cityList[i]->print();
-	}
-	cout << endl << endl;
-	
-	//Print test parameters
-	cout << "n = " << CLISTSIZE << endl;
-	//cout << CLOCKS_PER_SEC << endl;
-
-	//Initializing list variables
-	LinkedList* lList = new LinkedList();
-	S_LinkedList* SLList = new S_LinkedList();
-	AList* aList = new AList(CLISTSIZE);
-	S_AList* SAList = new S_AList(CLISTSIZE);
-
-	//Copy main city list
-	fillLists(lList, cityList, CLISTSIZE);
-	fillLists(SLList, cityList, CLISTSIZE);
-	fillLists(aList, cityList, CLISTSIZE);
-	fillLists(SAList, cityList, CLISTSIZE);
-
-	cout << endl;
-	cout << "Printing Origin List" << endl;
-	printList(lList);
-
-	system("pause");
-	system("cls");
-
-	cout << endl;
-	cout << "Testing search I" << endl;
-	//printList(lList);
-	testSearch(lList, cityList);
-	testSearch(lList, cityList2);
-
-	system("pause");
-	system("cls");
-
-	cout << endl;
-	cout << "Testing search II..." << endl;
-	//printList(SLList);
-	testSearch(SLList, cityList);
-	testSearch(SLList, cityList2);
-	
-	system("pause");
-	system("cls");
-
-	cout << endl;
-	cout << "Testing search III..." << endl;
-	//printList(aList);
-	testSearch(aList, cityList);
-	testSearch(aList, cityList2);
-
-	system("pause");
-	system("cls");
-
-	cout << endl;
-	cout << "Testing search IV..." << endl;
-	//printList(SAList);
-	testSearch(SAList, cityList);
-	testSearch(SAList, cityList2);
-}
-
-void genRandomCities(City * cityList[], int n)
-{
-	char nowName[11] = { '\0' };
-	int nowCoo[2] = { -1, -1 };
-
-	//Setting the seed of random number
-
-	for (int i = 0; i < n; i++)
-	{
-		//Generating random city names
-		nowName[0] = rand() % 26 + 65;
-		for (int j = 1; j < 10; j++)
-		{
-			nowName[j] = rand() % 26 + 97;
-		}
-		string* strName = new string(nowName);
-		
-		//Generating random city coordinates
-		nowCoo[0] = rand() % 1000;
-		nowCoo[1] = rand() % 1000;
-
-		//New City
-		cityList[i] = new City(*strName, nowCoo);
-	}
-}
-
-void fillLists(Lists* list, City* ori[], int size) {
-	for (int i = 0; i < size; i++)
-	{
-		list->append(ori[i]);
-	}
-}
-
-
-void printList(LList* list) {
-	list->reset();
-	while (list->curr->next != NULL)
-	{
-		list->curr = list->curr->next;
-		list->curr->element->print();
-	}
-}
-
-void printList(ArrayList* list) {
-	for (int i = 0; i < list->MAXLEN; i++)
-	{
-		list->elements[i]->print();
-	}
-}
-
-void testSearch(LList * list, City** cityList)
-{
-	int randNo;
-	Link* elementFound = NULL;
-
-	srand(time(NULL));
-
-	for (int i = 0; i < 10; i++)
-	{
-		elementFound = NULL;
-		randNo = rand() % CLISTSIZE;
-
-		cout << endl;
-		cout << "The selected element: ";
-		cityList[randNo]->print();
-		cout << endl;
-
-		elementFound = list->searchBy(cityList[randNo]->getName());
-
-		if (elementFound)
-		{
-			cout << "The found element: ";
-			elementFound->element->print();
-			cout << endl;
-		}
-		else {
-			cout << "Not found." << endl;
-		}
-		
-	}
-}
-
-void testSearch(ArrayList* list, City** cityList)
-{
-	int randNo;
-	City* elementFound = NULL;
-
-	srand(time(NULL));
-
-	for (int i = 0; i < 10; i++)
-	{
-		elementFound = NULL;
-		randNo = rand() % CLISTSIZE;
-
-		cout << endl;
-		cout << "The selected element: ";
-		cityList[randNo]->print();
-		cout << endl;
-
-		elementFound = list->searchBy(cityList[randNo]->getName());
-
-		if (elementFound)
-		{
-			cout << "The found element: ";
-			elementFound->print();
-			cout << endl;
-		}
-		else {
-			cout << "Not found." << endl;
-		}
-
-	}
-}
 
 

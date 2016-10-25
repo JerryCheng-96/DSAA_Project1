@@ -146,7 +146,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Project_1.cpp" />
+    <ClCompile Include="Project_CityDB.cpp" />
+    <ClCompile Include="TestDrive.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
