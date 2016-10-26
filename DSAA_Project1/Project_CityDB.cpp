@@ -109,6 +109,7 @@ public:
 class Lists {
 public:
 	virtual void append(City*) = 0;
+	virtual void deleteBy(const string&) = 0;
 };
 
 //链表总类
@@ -208,6 +209,43 @@ public:
 	virtual void append(City*) = 0;
 	virtual City* searchBy(const string&) = 0;
 	virtual void deleteBy(const string&) = 0;
+
+	//删除当前记录
+	void deleteCurr()
+	{
+		if (cnt != 0 && curr < cnt)
+		{
+			if (curr < cnt - 1)
+			{
+				for (int i = curr; i < cnt - 1; i++)
+				{
+					elements[i] = elements[i + 1];
+				}
+			}
+			else
+			{
+				delete elements[curr];
+				if (cnt > 1)
+				{
+					curr--;
+				}
+			}
+			cnt--;
+		}
+	}
+
+	City* searchBy(const int target[])
+	{
+		for (int i = 0; i < cnt; i++)
+		{
+			if (target[0] == elements[i]->getX() && target[1] == elements[i]->getY())
+			{
+				return elements[i];
+			}
+		}
+		//cout << "Target not found." << endl;
+		return NULL;
+	}
 };
 
 //无序 含头节点的单链表
@@ -371,30 +409,6 @@ public:
 		return;
 	}
 
-	//删除当前记录
-	void deleteCurr()
-	{
-		if (cnt != 0 && curr < cnt)
-		{
-			if (curr < cnt - 1)
-			{
-				for (int i = curr; i < cnt - 1; i++)
-				{
-					elements[i] = elements[i + 1];
-				}
-			}
-			else
-			{
-				delete elements[curr];
-				if (cnt > 1)
-				{
-					curr--;
-				}
-			}
-			cnt--;
-		}
-	}
-
 	//在特定记录前插入节点（根据名称或坐标）
 	void insertBefore(City* ele, const string& target)
 	{
@@ -410,7 +424,7 @@ public:
 					return;
 				}
 			}
-			cout << "Target not found." << endl;
+			//cout << "Target not found." << endl;
 		}
 		else
 		{
@@ -433,7 +447,7 @@ public:
 					return;
 				}
 			}
-			cout << "Target not found." << endl;
+			//cout << "Target not found." << endl;
 		}
 		else
 		{
@@ -452,20 +466,7 @@ public:
 				return elements[i];
 			}
 		}
-		cout << "Target not found." << endl;
-		return NULL;
-	}
-
-	City* searchBy(const int target[])
-	{
-		for (int i = 0; i < cnt; i++)
-		{
-			if (target[0] == elements[i]->getX() && target[1] == elements[i]->getY())
-			{
-				return elements[i];
-			}
-		}
-		cout << "Target not found." << endl;
+		//cout << "Target not found." << endl;
 		return NULL;
 	}
 
@@ -473,16 +474,16 @@ public:
 	void deleteBy(const string& target)
 	{
 		int i = curr;
-		for (curr = 0; curr < cnt; curr++)
+		for (curr = 0, i = 0; curr < cnt; curr++, i++)
 		{
-			if (target == elements[i]->getName())
+			if (target == elements[curr]->getName())
 			{
 				deleteCurr();
 				curr = i;
 				return;
 			}
 		}
-		cout << "Target not found." << endl;
+		//cout << "Target not found." << endl;
 		return;
 	}
 
@@ -498,7 +499,7 @@ public:
 				return;
 			}
 		}
-		cout << "Target not found." << endl;
+		//cout << "Target not found." << endl;
 		return;
 	}
 
@@ -619,7 +620,11 @@ public:
 	//二分法搜索并删除一条记录（根据名称）
 	void deleteBy(const string& target)
 	{
-		this->curr = searchBy(target);
+		Link* temp = searchBy(target);
+		reset();
+		while (temp != NULL && !(curr->next == temp)) {
+			curr = curr->next;
+		}
 		deleteCurr();
 	}
 
@@ -695,48 +700,6 @@ public:
 		}
 	}
 
-	/*
-	//搜索一条记录（根据名称或坐标）
-	City* searchBy(const string& target)
-	{
-	for(int i = 0;i<cnt;i++)
-	{
-	if(target==elements[i]->getName())
-	{
-	return elements[i];
-	}
-	}
-	cout<<"Target not found."<<endl;
-	return NULL;
-	}
-	*/
-
-	//二分法搜索一条记录（根据名称）
-	City* searchBy(const string& target, int l, int r)
-	{
-		if (r <= l)
-		{
-			return NULL;
-		}
-
-		int c = (l + r) / 2;
-		curr = 0;
-		curr += c;
-
-		if (elements[curr]->getName() > target)
-		{
-			return searchBy(target, l, c);
-		}
-		else if (elements[curr]->getName() < target)
-		{
-			return searchBy(target, c, r);
-		}
-		else if (elements[curr]->getName() == target)
-		{
-			return elements[curr];
-		}
-	}
-
 	City* searchBy(const string& target) {
 		int headNo = 0;
 		int tailNo = cnt - 1;
@@ -795,6 +758,11 @@ public:
 			else if (elements[nowNo]->getName() == target)
 			{
 				this->curr = nowNo;
+				if (curr != -1)
+				{
+					deleteCurr();
+				}
+				return;
 			}
 			nowNo = (headNo + tailNo) / 2;
 		}
@@ -840,29 +808,7 @@ public:
 		return;
 	}
 
-	//删除当前记录
-	void deleteCurr()
-	{
-		if (cnt != 0 && curr < cnt)
-		{
-			if (curr < cnt - 1)
-			{
-				for (int i = curr; i < cnt - 1; i++)
-				{
-					elements[i] = elements[i + 1];
-				}
-			}
-			else
-			{
-				delete elements[curr];
-				if (cnt > 1)
-				{
-					curr--;
-				}
-			}
-			cnt--;
-		}
-	}
+
 };
 
 

@@ -1,6 +1,6 @@
 
 #define _CRT_SECURE_NO_WARNINGS
-#define CLISTSIZE 10000
+#define CLISTSIZE 1000
 #define TESTROUNDS 10
 
 #include "Project_CityDB.cpp"
@@ -336,7 +336,7 @@ void testRandomDelete(LList * list, City ** cityList, int testTimes)
 
 		if (elementFound)
 		{
-			cout << "Testing delete failed. The element:";
+			cout << "Testing delete failed. i = " << i << ", The element: ";
 			elementFound->element->print();
 			return;
 		}
@@ -370,7 +370,7 @@ void testRandomDelete(ArrayList * list, City ** cityList, int testTimes)
 
 		if (elementFound)
 		{
-			cout << "Testing delete failed. The element:";
+			cout << "Testing delete failed. i = " << i << ", The element: ";
 			elementFound->print();
 			return;
 		}
@@ -417,6 +417,8 @@ void main() {
 	cout << "All DB Loaded." << endl;
 	
 	//Testing search
+	/*
+
 	//Testing search in LinkedList
 	cout << "Testing search..." << endl;
 	//Testing search for elements at head/tail
@@ -425,31 +427,33 @@ void main() {
 	testRandomSearch(lList, cityList1, TESTROUNDS);
 	//Testing search for non-existing elements
 	testRandomSearch(lList, cityList2, TESTROUNDS);
-	system("pause");
-	system("cls");
 
 	//Testing search in S_LinkedList
 	testHTSearch(SLList, cityList1);
 	testRandomSearch(SLList, cityList1, TESTROUNDS);
 	testRandomSearch(SLList, cityList2, TESTROUNDS);
-	system("pause");
-	system("cls");
 
 	//Testing search in ArrayList
 	testHTSearch(aList, SAList->elements);
 	testRandomSearch(aList, cityList1, TESTROUNDS);
 	testRandomSearch(aList, cityList2, TESTROUNDS);
-	system("pause");
-	system("cls");
 
 	//Testing search in S_AList
 	testHTSearch(SAList, SAList->elements);
 	testRandomSearch(SAList, cityList1, TESTROUNDS);
 	testRandomSearch(SAList, cityList2, TESTROUNDS);
-	system("pause");
-	system("cls");
 
+	*/
 	
 	//Testing delete
-
+	cout << "Testing delete - ArrayList" << endl;
+	testRandomDelete(aList, cityList1, TESTROUNDS);
+	cout << "Testing delete - S_AList" << endl;
+	testRandomDelete(SAList, cityList1, TESTROUNDS);
+	cout << "Testing delete - LinkedList" << endl;
+	//lList->deleteBy(lList->head->next->element->getName());
+	testRandomDelete(lList, cityList1, TESTROUNDS);
+	cout << "Testing delete - S_LinkedList" << endl;
+	//SLList->deleteBy(SLList->head->next->element->getName());
+	testRandomDelete(SLList, cityList1, TESTROUNDS);
 }
