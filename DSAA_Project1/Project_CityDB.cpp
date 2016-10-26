@@ -2,6 +2,8 @@
 #include <string>
 #include <ctime>
 
+#define SQR(x) (x)*(x)
+
 using namespace std;
 
 //Source Code
@@ -121,12 +123,78 @@ public:
 	//virtual void next() = 0;
 	virtual void append(City*) = 0;
 	virtual Link* searchBy(const string&) = 0;
+	virtual void deleteBy(const string&) = 0;
 
 	void justAppend(City* target) {
 		tail->next = new Link(target, NULL);
 		tail = tail->next;
 		cnt++;
 	}
+
+	//删除当前记录
+	void deleteCurr()
+	{
+		if (cnt != 0)
+		{
+			Link* temp = curr->next;
+			if (curr->next->next == NULL)
+			{
+				tail = curr->next;
+			}
+			curr->next = curr->next->next;
+			delete[] temp;
+			cnt--;
+		}
+		return;
+	}
+
+	void deleteBy(const int target[])
+	{
+		if (cnt != 0)
+		{
+			for (reset(); curr->next != NULL; curr = curr->next)
+			{
+				if (curr->next->element->getX() == target[0] && curr->next->element->getY() == target[1])
+				{
+					deleteCurr();
+					return;
+				}
+			}
+		}
+	}
+
+	Link* searchBy(const int target[])
+	{
+		for (reset(); curr->next != NULL; curr = curr->next)
+		{
+			if (curr->next->element->getCoord()[0] == target[0] &&
+				curr->next->element->getCoord()[1] == target[1])
+			{
+				return curr->next;
+			}
+		}
+	}
+
+	//打印出位于目标城市给定半径内的城市的记录
+	void printInCircle(City* point, const int radius)
+	{
+		Link* temp = curr;
+		//Link* temp2 = searchBy(point->getName());
+		int* coord = NULL;
+
+		for (reset(); curr->next != NULL; curr = curr->next)
+		{
+			coord = curr->next->element->getCoord();
+			if (SQR(coord[0] - point->getX()) + SQR(coord[1] - point->getY()) <= radius*radius)
+			{
+				curr->next->element->print();
+			}
+		}
+
+		curr = temp;
+		return;
+	}
+
 };
 
 //数组总类
@@ -139,6 +207,7 @@ public:
 
 	virtual void append(City*) = 0;
 	virtual City* searchBy(const string&) = 0;
+	virtual void deleteBy(const string&) = 0;
 };
 
 //无序 含头节点的单链表
@@ -183,22 +252,7 @@ public:
 		cnt++;
 	}
 
-	//删除当前记录
-	void deleteCurr()
-	{
-		if (cnt != 0)
-		{
-			Link* temp = curr->next;
-			if (curr->next->next == NULL)
-			{
-				tail = curr->next;
-			}
-			curr->next = curr->next->next;
-			delete[] temp;
-			cnt--;
-		}
-		return;
-	}
+	
 
 	//在特定记录前插入节点（根据名称或坐标）
 	void insertAfter(City* ele, const string& targetName)
@@ -250,26 +304,13 @@ public:
 				if (curr->next->element->getName() == targetName)
 				{
 					deleteCurr();
+					curr = head;
 					return;
 				}
 			}
 		}
 	}
 
-	void deleteBy(const int target[])
-	{
-		if (cnt != 0)
-		{
-			for (reset(); curr->next != NULL; curr = curr->next)
-			{
-				if (curr->next->element->getX() == target[0] && curr->next->element->getY() == target[1])
-				{
-					deleteCurr();
-					return;
-				}
-			}
-		}
-	}
 
 	//搜索一条记录（根据名称或坐标）
 	Link* searchBy(const string& target)
@@ -282,44 +323,6 @@ public:
 			}
 		}
 		return NULL;
-	}
-
-	Link* searchBy(const int target[])
-	{
-		for (reset(); curr->next != NULL; curr = curr->next)
-		{
-			if (curr->next->element->getCoord()[0] == target[0] &&
-				curr->next->element->getCoord()[1] == target[1])
-			{
-				return curr->next;
-			}
-		}
-	}
-
-	//打印出位于目标城市给定半径内的城市的记录
-	void printInCircle(City* point, const int radius)
-	{
-		Link* temp = curr;
-		//Link* temp2 = searchBy(point->getName());
-		int* coord = NULL;
-
-		for (reset(); curr->next != NULL; curr = curr->next)
-		{
-			coord = curr->next->element->getCoord();
-			if (sqr(coord[0] - point->getX()) + sqr(coord[1] - point->getY()) <= radius*radius)
-			{
-				curr->next->element->print();
-			}
-		}
-
-		curr = temp;
-		return;
-	}
-
-private:
-	int sqr(int x)
-	{
-		return x*x;
 	}
 };
 
@@ -504,18 +507,12 @@ public:
 	{
 		for (int i = 0; i < cnt; i++)
 		{
-			if (sqr(elements[i]->getX() - point->getX()) + sqr(elements[i]->getY() - point->getY()) <= radius*radius)
+			if (SQR(elements[i]->getX() - point->getX()) + SQR(elements[i]->getY() - point->getY()) <= radius*radius)
 			{
 				elements[i]->print();
 			}
 		}
 		return;
-	}
-
-private:
-	int sqr(int x)
-	{
-		return x*x;
 	}
 };
 
@@ -579,49 +576,7 @@ public:
 	}
 
 
-	//删除当前记录
-	void deleteCurr()
-	{
-		if (cnt != 0)
-		{
-			Link* temp = curr->next;
-			if (curr->next->next == NULL)
-			{
-				tail = curr->next;
-			}
-			curr->next = curr->next->next;
-			delete[] temp;
-			cnt--;
-		}
-		return;
-	}
-
 	//二分法搜索一条记录（根据名称）
-	Link* searchBy(const string& target, int l, int r)
-	{
-		if (r <= l)
-		{
-			return NULL;
-		}
-
-		int c = (l + r) / 2;
-		reset();
-		next(c);
-
-		if (curr->next->element->getName() > target)
-		{
-			return searchBy(target, l, c);
-		}
-		else if (curr->next->element->getName() < target)
-		{
-			return searchBy(target, c, r);
-		}
-		else if (curr->next->element->getName() == target)
-		{
-			return curr->next;
-		}
-	}
-
 	Link* searchBy(const string& target) {
 		int headNo = 0;
 		int tailNo = cnt - 1;
@@ -660,44 +615,12 @@ public:
 		return NULL;
 	}
 
-	/*
-	Link* searchBy(const int target[])
-	{
-	for(reset();curr->next != NULL;curr = curr->next)
-	{
-	if(curr->next->element->getCoord()[0]==target[0]&&
-	curr->next->element->getCoord()[1]==target[1])
-	{
-	return curr->next;
-	}
-	}
-	}
-	*/
-
+	
 	//二分法搜索并删除一条记录（根据名称）
-	void deleteBy(const string& target, int l, int r)
+	void deleteBy(const string& target)
 	{
-		if (r <= l)
-		{
-			return;
-		}
-
-		int c = (l + r) / 2;
-		reset();
-		next(c);
-
-		if (curr->next->element->getName() > target)
-		{
-			deleteBy(target, l, c);
-		}
-		else if (curr->next->element->getName() < target)
-		{
-			deleteBy(target, c, r);
-		}
-		else if (curr->next->element->getName() == target)
-		{
-			deleteCurr();
-		}
+		this->curr = searchBy(target);
+		deleteCurr();
 	}
 
 	//打印出位于目标城市给定半径内的城市的记录
@@ -710,7 +633,7 @@ public:
 		for (reset(); curr->next != NULL; curr = curr->next)
 		{
 			coord = curr->next->element->getCoord();
-			if (sqr(coord[0] - point->getX()) + sqr(coord[1] - point->getY()) <= radius*radius)
+			if (SQR(coord[0] - point->getX()) + SQR(coord[1] - point->getY()) <= radius*radius)
 			{
 				curr->next->element->print();
 			}
@@ -721,11 +644,6 @@ public:
 	}
 
 private:
-	int sqr(int x)
-	{
-		return x*x;
-	}
-
 	Link* forwardTo(int n) {
 		Link* priCurr = head;
 		for (int i = 0; i < n && i < cnt; i++)
@@ -855,26 +773,43 @@ public:
 	}
 
 	//二分法搜索并删除一条记录（根据名称）
-	void deleteBy(const string& target, int l, int r)
+
+	void deleteBy(const string& target) 
 	{
-		if (r <= l)
+		int headNo = 0;
+		int tailNo = cnt - 1;
+		int nowNo = (headNo + tailNo) / 2;
+
+		this->curr = -1;
+
+		while (!(headNo == nowNo && headNo == (tailNo - 1)))
 		{
-			return;
+			if (elements[nowNo]->getName() > target)
+			{
+				tailNo = nowNo;
+			}
+			else if (elements[nowNo]->getName() < target)
+			{
+				headNo = nowNo;
+			}
+			else if (elements[nowNo]->getName() == target)
+			{
+				this->curr = nowNo;
+			}
+			nowNo = (headNo + tailNo) / 2;
 		}
 
-		int c = (l + r) / 2;
-		curr = 0;
-		curr += c;
-
-		if (elements[curr]->getName() > target)
+		nowNo = headNo;
+		if (elements[nowNo]->getName() == target)
 		{
-			deleteBy(target, l, c);
+			this->curr = nowNo;
 		}
-		else if (elements[curr]->getName() < target)
+		nowNo = tailNo;
+		if (elements[nowNo]->getName() == target)
 		{
-			deleteBy(target, c, r);
+			this->curr = nowNo;
 		}
-		else if (elements[curr]->getName() == target)
+		if (curr != -1)
 		{
 			deleteCurr();
 		}
@@ -885,7 +820,7 @@ public:
 	{
 		for (int i = 0; i < cnt; i++)
 		{
-			if (sqr(elements[i]->getX() - point->getX()) + sqr(elements[i]->getY() - point->getY()) <= radius*radius)
+			if (SQR(elements[i]->getX() - point->getX()) + SQR(elements[i]->getY() - point->getY()) <= radius*radius)
 			{
 				elements[curr]->print();
 			}
@@ -893,7 +828,6 @@ public:
 		return;
 	}
 
-private:
 	//在当前位置之前插入元素
 	void insert(City* ele)
 	{
@@ -928,12 +862,6 @@ private:
 			}
 			cnt--;
 		}
-	}
-
-	//计算平方
-	int sqr(int x)
-	{
-		return x*x;
 	}
 };
 

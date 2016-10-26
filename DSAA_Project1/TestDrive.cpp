@@ -1,6 +1,7 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 #define CLISTSIZE 10000
+#define TESTROUNDS 10
 
 #include "Project_CityDB.cpp"
 
@@ -22,8 +23,15 @@ void fillLists(Lists* list, City* ori[], int size);
 void printList(LList* list);
 void printList(ArrayList* list);
 
-void testSearch(LList* list, City** cityList);
-void testSearch(ArrayList* list, City** cityList);
+void testRandomSearch(LList* list, City** cityList, int testTimes);
+void testRandomSearch(ArrayList* list, City** cityList, int testTimes);
+void testHTSearch(LList* list, City** cityList);
+void testHTSearch(ArrayList* list, City** cityList);
+
+void testRandomDelete(LList* list, City** cityList, int testTimes);
+void testRandomDelete(ArrayList* list, City** cityList, int testTimes);
+void testHTDelete(LList* list, City** cityList);
+void testHTDelete(ArrayList* list, City** cityList);
 
 void genRandomCities(City * cityList[], int n)
 {
@@ -183,14 +191,14 @@ void printList(ArrayList* list) {
 	}
 }
 
-void testSearch(LList * list, City** cityList)
+void testRandomSearch(LList * list, City** cityList, int testTimes)
 {
 	int randNo;
 	Link* elementFound = NULL;
 
 	srand(time(NULL));
 
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < testTimes; i++)
 	{
 		elementFound = NULL;
 		randNo = rand() % CLISTSIZE;
@@ -215,14 +223,43 @@ void testSearch(LList * list, City** cityList)
 	}
 }
 
-void testSearch(ArrayList* list, City** cityList)
+void testHTSearch(LList * list, City** cityList)
+{
+	Link* elementFound1 = NULL;
+	Link* elementFound2 = NULL;
+
+	cout << endl;
+	cout << "The selected element: ";
+	cityList[0]->print();
+	cityList[CLISTSIZE - 1]->print();
+
+	cout << endl;
+
+	elementFound1 = list->searchBy(cityList[0]->getName());
+	elementFound2 = list->searchBy(cityList[CLISTSIZE - 1]->getName());
+
+	if (elementFound1 && elementFound2)
+	{
+		cout << "The found element: ";
+		elementFound1->element->print();
+		elementFound2->element->print();
+		cout << endl;
+	}
+	else {
+		cout << "Not found." << endl;
+	}
+
+
+}
+
+void testRandomSearch(ArrayList* list, City** cityList, int testTimes)
 {
 	int randNo;
 	City* elementFound = NULL;
 
 	srand(time(NULL));
 
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < testTimes; i++)
 	{
 		elementFound = NULL;
 		randNo = rand() % CLISTSIZE;
@@ -247,15 +284,113 @@ void testSearch(ArrayList* list, City** cityList)
 	}
 }
 
+void testHTSearch(ArrayList* list, City** cityList)
+{
+	City* elementFound1 = NULL;
+	City* elementFound2 = NULL;
+
+	cout << endl;
+	cout << "The selected element: ";
+	cityList[0]->print();
+	cityList[CLISTSIZE - 1]->print();
+
+	cout << endl;
+
+	elementFound1 = list->searchBy(cityList[0]->getName());
+	elementFound2 = list->searchBy(cityList[CLISTSIZE - 1]->getName());
+
+	if (elementFound1 && elementFound2)
+	{
+		cout << "The found element: ";
+		elementFound1->print();
+		elementFound2->print();
+		cout << endl;
+	}
+	else {
+		cout << "Not found." << endl;
+	}
+}
+
+void testRandomDelete(LList * list, City ** cityList, int testTimes)
+{
+	int randNo;
+	Link* elementFound = NULL;
+	string elementDeleted;
+
+	srand(time(NULL));
+
+	if (testTimes > CLISTSIZE)
+	{
+		cout << "Too many test rounds." << endl;
+		return;
+	}
+
+	for (int i = 0; i < testTimes; i++)
+	{
+		elementFound = NULL;
+		randNo = rand() % CLISTSIZE;
+
+		elementDeleted = cityList[randNo]->getName();
+		list->deleteBy(cityList[randNo]->getName());
+		elementFound = list->searchBy(elementDeleted);
+
+		if (elementFound)
+		{
+			cout << "Testing delete failed. The element:";
+			elementFound->element->print();
+			return;
+		}
+
+	}
+	cout << "Testing delete succeeded." << endl;
+}
+
+void testRandomDelete(ArrayList * list, City ** cityList, int testTimes)
+{
+	int randNo;
+	City* elementFound = NULL;
+	string elementDeleted;
+
+	srand(time(NULL));
+
+	if (testTimes > CLISTSIZE)
+	{
+		cout << "Too many test rounds." << endl;
+		return;
+	}
+
+	for (int i = 0; i < testTimes; i++)
+	{
+		elementFound = NULL;
+		randNo = rand() % CLISTSIZE;
+
+		elementDeleted = cityList[randNo]->getName();
+		list->deleteBy(cityList[randNo]->getName());
+		elementFound = list->searchBy(elementDeleted);
+
+		if (elementFound)
+		{
+			cout << "Testing delete failed. The element:";
+			elementFound->print();
+			return;
+		}
+	}
+
+	cout << "Testing delete succeeded." << endl;
+}
+
 void main() {
+	//Generating all test cases
+	//genAllTestDB();
 	
-	genAllTestDB();
-	
-	/*
-	City * cityList[CLISTSIZE];
-	readCityList(cityList, "cityList1.dat");
+	//Initializing cityDB
+	City * cityList1[CLISTSIZE];
+	string* listName1 = new string("CityList1_" + to_string(CLISTSIZE) + ".dat");
+	readCityList(cityList1, listName1->c_str());
 	City * cityList2[CLISTSIZE];
-	readCityList(cityList2, "cityList2.dat");
+	string* listName2 = new string("CityList2_" + to_string(CLISTSIZE) + ".dat");
+	readCityList(cityList2, listName2->c_str());
+
 	//Variables for timing
 	clock_t start;
 	clock_t end;
@@ -270,39 +405,51 @@ void main() {
 	AList* aList = new AList(CLISTSIZE);
 	S_AList* SAList = new S_AList(CLISTSIZE);
 
-	//Copy main city list
-	fillLists(lList, cityList, CLISTSIZE);
-	cout << "LinkedList done." << endl;
-	fillLists(SLList, cityList, CLISTSIZE);
-	cout << "S_LinkedList done." << endl;
-	fillLists(aList, cityList, CLISTSIZE);
-	cout << "AList done." << endl;
-	fillLists(SAList, cityList, CLISTSIZE);
-	cout << "S_AList done." << endl;
+	string* listName1_s = new string("CityList1_" + to_string(CLISTSIZE) + "_Sorted.dat");
 
-	system("pause");
-	system("cls");
-
-	testSearch(lList, cityList);
-	testSearch(lList, cityList2);
-	system("pause");
-	system("cls");
-
-	testSearch(SLList, cityList);
-	testSearch(SLList, cityList2);
-	system("pause");
-	system("cls");
-
-	testSearch(aList, cityList);
-	testSearch(aList, cityList2);
-	system("pause");
-	system("cls");
-
-	testSearch(SAList, cityList);
-	testSearch(SAList, cityList2);
-	system("pause");
-	system("cls");
-
-	*/
+	fillLists(lList, cityList1, CLISTSIZE);
+	readCityList(SLList, listName1_s->c_str());
+	SLList->cnt = CLISTSIZE;
+	fillLists(aList, cityList1, CLISTSIZE);
+	readCityList(SAList->elements, listName1_s->c_str());
+	SAList->cnt = CLISTSIZE;
 	
+	cout << "All DB Loaded." << endl;
+	
+	//Testing search
+	//Testing search in LinkedList
+	cout << "Testing search..." << endl;
+	//Testing search for elements at head/tail
+	testHTSearch(lList, cityList1); 
+	//Testing search for elements selected randomly
+	testRandomSearch(lList, cityList1, TESTROUNDS);
+	//Testing search for non-existing elements
+	testRandomSearch(lList, cityList2, TESTROUNDS);
+	system("pause");
+	system("cls");
+
+	//Testing search in S_LinkedList
+	testHTSearch(SLList, cityList1);
+	testRandomSearch(SLList, cityList1, TESTROUNDS);
+	testRandomSearch(SLList, cityList2, TESTROUNDS);
+	system("pause");
+	system("cls");
+
+	//Testing search in ArrayList
+	testHTSearch(aList, SAList->elements);
+	testRandomSearch(aList, cityList1, TESTROUNDS);
+	testRandomSearch(aList, cityList2, TESTROUNDS);
+	system("pause");
+	system("cls");
+
+	//Testing search in S_AList
+	testHTSearch(SAList, SAList->elements);
+	testRandomSearch(SAList, cityList1, TESTROUNDS);
+	testRandomSearch(SAList, cityList2, TESTROUNDS);
+	system("pause");
+	system("cls");
+
+	
+	//Testing delete
+
 }
