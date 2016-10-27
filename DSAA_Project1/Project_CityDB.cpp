@@ -81,6 +81,19 @@ public:
 		cout << name << ",(" << coordinates[0] << "," << coordinates[1] << ")" << endl;
 		return;
 	}
+
+	bool equals(City* anotherCity) {
+		if (anotherCity)
+		{
+			return ((this->getName() == anotherCity->getName())
+				&& (this->getCoord()[0] == anotherCity->getCoord()[0])
+				&& (this->getCoord()[1] == anotherCity->getCoord()[1]));
+		}
+		else
+		{
+			return false;
+		}
+	}
 };
 
 //节点类
@@ -103,6 +116,16 @@ public:
 	}
 
 	//~Link(){}
+	bool equals(Link* anotherLink) {
+		if (anotherLink)
+		{
+			return this->element->equals(anotherLink->element);
+		}
+		else
+		{
+			return false;
+		}
+	}
 };
 
 //列表总类
@@ -140,7 +163,7 @@ public:
 			Link* temp = curr->next;
 			if (curr->next->next == NULL)
 			{
-				tail = curr->next;
+				tail = curr;
 			}
 			curr->next = curr->next->next;
 			delete[] temp;
@@ -579,8 +602,8 @@ public:
 
 	//二分法搜索一条记录（根据名称）
 	Link* searchBy(const string& target) {
-		int headNo = 0;
-		int tailNo = cnt - 1;
+		int headNo = 1;
+		int tailNo = cnt;
 		int nowNo = (headNo + tailNo) / 2;
 		
 		Link* nowPos = forwardTo(nowNo);
@@ -611,6 +634,7 @@ public:
 		nowPos = forwardTo(tailNo);
 		if (nowPos->element->getName() == target)
 		{
+
 			return nowPos;
 		}
 		return NULL;
@@ -807,8 +831,6 @@ public:
 		cnt++;
 		return;
 	}
-
-
 };
 
 
