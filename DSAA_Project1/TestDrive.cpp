@@ -1,7 +1,7 @@
 
 #define _CRT_SECURE_NO_WARNINGS
-#define CLISTSIZE 10000
-#define TESTROUNDS 250
+#define CLISTSIZE 50000
+#define TESTROUNDS 500
 
 #include "Project_CityDB.cpp"
 
@@ -377,9 +377,16 @@ void testRandomDelete(ArrayList * list, City ** cityList, int testTimes)
 	cout << "Testing delete succeeded. Test rounds: " << TESTROUNDS << ", Time consumed in ms: " << (end - start) << endl;
 }
 
+void testHTDelete(LList * list, City ** cityList)
+{
+	;
+}
+
 void main() {
 	//Generating all test cases
-	//genAllTestDB();
+	genAllTestDB();
+
+	/*
 
 	//Initializing cityDB
 	City * cityList1[CLISTSIZE];
@@ -468,4 +475,6 @@ void main() {
 	cout << "Testing delete - S_AList" << endl;
 	testRandomDelete(SAList, cityList1, TESTROUNDS);
 	cout << endl;
+
+	*/
 }
