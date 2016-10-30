@@ -5,6 +5,8 @@
 
 #include "Project_CityDB.cpp"
 
+using namespace std;
+
 //Test Drives
 //***********
 
@@ -230,7 +232,7 @@ void testRandomSearch(LList * list, City** cityList, int testTimes)
 		}
 	}
 	end = clock();
-	cout << "Random Search OK. Test rounds: " << TESTROUNDS << ", Time consumed in ms: " << end - start << endl;
+	cout << "Name Random Search OK. " << CLISTSIZE << ", " << TESTROUNDS << ", " << end - start << endl;
 }
 
 void testHTSearch(LList * list, City** cityList)
@@ -283,7 +285,7 @@ void testRandomSearch(ArrayList* list, City** cityList, int testTimes)
 	}
 	end = clock();
 
-	cout << "Random Search OK. Test rounds: " << TESTROUNDS << ", Time consumed in ms: " << end - start << endl;
+	cout << "Name Random Search OK. " << CLISTSIZE << ", " << TESTROUNDS << ", " << end - start << endl;
 }
 
 void testHTSearch(ArrayList* list, City** cityList)
@@ -345,7 +347,7 @@ void testRandomDelete(LList * list, City ** cityList, int testTimes)
 
 	}
 	end = clock();
-	cout << "Testing delete succeeded. Test rounds: " << TESTROUNDS << ", Time consumed in ms: " << (end - start) << endl;
+	cout << "Testing name delete OK. " << CLISTSIZE << ", " << TESTROUNDS << ", " << end - start << endl;
 }
 
 void testRandomDelete(ArrayList * list, City ** cityList, int testTimes)
@@ -383,7 +385,45 @@ void testRandomDelete(ArrayList * list, City ** cityList, int testTimes)
 	}
 	end = clock();
 
-	cout << "Testing delete succeeded. Test rounds: " << TESTROUNDS << ", Time consumed in ms: " << (end - start) << endl;
+	cout << "Testing name delete OK. " << CLISTSIZE << ", " << TESTROUNDS << ", " << end - start << endl;
+}
+
+void testHTDelete(LList * list, City ** cityList)
+{
+	Link* elementFound1 = NULL;
+	Link* elementFound2 = NULL;
+
+	list->deleteBy(cityList[0]->getName());
+	list->deleteBy(cityList[CLISTSIZE - 1]->getName());
+	elementFound1 = list->searchBy(cityList[0]->getName());
+	elementFound2 = list->searchBy(cityList[CLISTSIZE - 1]->getName());
+
+	if (!elementFound1 && !elementFound2)
+	{
+		cout << "HTDelete OK." << endl;
+	}
+	else {
+		cout << "HTDelete failed." << endl;
+	}
+}
+
+void testHTDelete(ArrayList * list, City ** cityList)
+{
+	City* elementFound1 = NULL;
+	City* elementFound2 = NULL;
+
+	list->deleteBy(cityList[0]->getName());
+	list->deleteBy(cityList[CLISTSIZE - 1]->getName());
+	elementFound1 = list->searchBy(cityList[0]->getName());
+	elementFound2 = list->searchBy(cityList[CLISTSIZE - 1]->getName());
+
+	if (!elementFound1 && !elementFound2)
+	{
+		cout << "HTDelete OK." << endl;
+	}
+	else {
+		cout << "HTDelete failed." << endl;
+	}
 }
 
 
@@ -413,7 +453,7 @@ void testRandomSearchByCoordinates(LList * list, City ** cityList, int testTimes
 		}
 	}
 	end = clock();
-	cout << "Random Search OK. Test rounds: " << TESTROUNDS << ", Time consumed in ms: " << end - start << endl;
+	cout << "Coordinates Random Search OK. " << CLISTSIZE << ", " << TESTROUNDS << ", " << end - start << endl;
 }
 
 void testRandomSearchByCoordinates(ArrayList * list, City ** cityList, int testTimes)
@@ -443,7 +483,7 @@ void testRandomSearchByCoordinates(ArrayList * list, City ** cityList, int testT
 	}
 	end = clock();
 
-	cout << "Random Search OK. Test rounds: " << TESTROUNDS << ", Time consumed in ms: " << end - start << endl;
+	cout << "Coordinates Random Search OK. " << CLISTSIZE << ", " << TESTROUNDS << ", " << end - start << endl;
 }
 
 void testRandomDeleteByCoordinates(LList * list, City ** cityList, int testTimes)
@@ -482,7 +522,7 @@ void testRandomDeleteByCoordinates(LList * list, City ** cityList, int testTimes
 
 	}
 	end = clock();
-	cout << "Testing delete succeeded. Test rounds: " << TESTROUNDS << ", Time consumed in ms: " << (end - start) << endl;
+	cout << "Testing coordinates delete OK. " << CLISTSIZE << ", " << TESTROUNDS << ", " << end - start << endl;
 }
 
 void testRandomDeleteByCoordinates(ArrayList * list, City ** cityList, int testTimes)
@@ -521,7 +561,7 @@ void testRandomDeleteByCoordinates(ArrayList * list, City ** cityList, int testT
 	}
 	end = clock();
 
-	cout << "Testing delete succeeded. Test rounds: " << TESTROUNDS << ", Time consumed in ms: " << (end - start) << endl;
+	cout << "Testing coordinates delete OK. " << CLISTSIZE << ", " << TESTROUNDS << ", " << end - start << endl;
 }
 
 
@@ -554,7 +594,7 @@ void testInsert(ArrayList * list, City ** cityList, int testTimes)
 	}
 	end = clock();
 
-	cout << "Testing insert succeeded. Test rounds: " << TESTROUNDS - 1 << ", Time consumed in ms: " << (end - start) << endl;
+	cout << "Testing insert OK. " << CLISTSIZE << ", " << TESTROUNDS << ", " << end - start << endl;
 }
 
 void testInsert(LList * list, City ** cityList, int testTimes)
@@ -586,7 +626,7 @@ void testInsert(LList * list, City ** cityList, int testTimes)
 	}
 	end = clock();
 
-	cout << "Testing insert succeeded. Test rounds: " << TESTROUNDS - 1 << ", Time consumed in ms: " << (end - start) << endl;
+	cout << "Testing insert OK. " << CLISTSIZE << ", " << TESTROUNDS << ", " << end - start << endl;
 }
 
 
@@ -612,13 +652,27 @@ void main() {
 	//cout << CLOCKS_PER_SEC << endl;
 
 	//Initializing list variables
+	//Testing DBs for Search by name, Random Delete and Insert
 	LinkedList* lList = new LinkedList();
 	S_LinkedList* SLList = new S_LinkedList();
 	AList* aList = new AList(CLISTSIZE);
 	S_AList* SAList = new S_AList(CLISTSIZE);
 
+	//Testing DBs for HT Search and Delete
+	LinkedList* lList2 = new LinkedList();
+	S_LinkedList* SLList2 = new S_LinkedList();
+	AList* aList2 = new AList(CLISTSIZE);
+	S_AList* SAList2 = new S_AList(CLISTSIZE);
+
+	//Testing DBs for Search and Delete by coordinates
+	LinkedList* lList3 = new LinkedList();
+	S_LinkedList* SLList3 = new S_LinkedList();
+	AList* aList3 = new AList(CLISTSIZE);
+	S_AList* SAList3 = new S_AList(CLISTSIZE);
+
 	string* listName1_s = new string("CityList1_" + to_string(CLISTSIZE) + "_Sorted.dat");
 
+	//Loading DBs from pre-generated files to save time
 	fillLists(lList, cityList1, CLISTSIZE);
 	readCityList(SLList, listName1_s->c_str());
 	SLList->cnt = CLISTSIZE;
@@ -626,62 +680,69 @@ void main() {
 	readCityList(SAList->elements, listName1_s->c_str());
 	SAList->cnt = CLISTSIZE;
 
+	fillLists(lList2, cityList1, CLISTSIZE);
+	readCityList(SLList2, listName1_s->c_str());
+	SLList2->cnt = CLISTSIZE;
+	fillLists(aList2, cityList1, CLISTSIZE);
+	readCityList(SAList2->elements, listName1_s->c_str());
+	SAList2->cnt = CLISTSIZE;
+
+	fillLists(lList3, cityList1, CLISTSIZE);
+	readCityList(SLList3, listName1_s->c_str());
+	SLList3->cnt = CLISTSIZE;
+	fillLists(aList3, cityList1, CLISTSIZE);
+	readCityList(SAList3->elements, listName1_s->c_str());
+	SAList3->cnt = CLISTSIZE;
+
 	cout << "All DB Loaded." << endl << endl;
 
-	//Testing search
-	cout << "Testing search..." << endl;
-	cout << endl;
-
-	//Testing search in LinkedList
-	cout << "Testing search - LinkedList" << endl;
-	//Testing search for elements at head/tail
-	testHTSearch(lList, cityList1);
-	//Testing search for elements selected randomly
-	testRandomSearch(lList, cityList1, TESTROUNDS);
-	//Testing search for non-existing elements
-	//testRandomSearch(lList, cityList2, TESTROUNDS);
-	cout << endl;
-
-	//Testing search in S_LinkedList
-	cout << "Testing search - S_LinkedList" << endl;
-	testHTSearch(SLList, cityList1);
-	testRandomSearch(SLList, cityList1, TESTROUNDS);
-	//testRandomSearch(SLList, cityList2, TESTROUNDS);
-	cout << endl;
-
-	//Testing search in ArrayList
-	cout << "Testing search - ArrayList" << endl;
-	testHTSearch(aList, SAList->elements);
+	//Testing AList
+	cout << "Testing AList... " << endl;
+	//Testing Search by name, Random Delete and Insert
 	testRandomSearch(aList, cityList1, TESTROUNDS);
-	//testRandomSearch(aList, cityList2, TESTROUNDS);
-	cout << endl;
-
-	//Testing search in S_AList
-	cout << "Testing search - S_AList" << endl;
-	testHTSearch(SAList, SAList->elements);
-	testRandomSearch(SAList, cityList1, TESTROUNDS);
-	//testRandomSearch(SAList, cityList2, TESTROUNDS);
-	cout << endl;
-
-
-	//Testing delete
-	cout << endl;
-	cout << "Testing delete..." << endl << endl;
-	cout << "Testing delete - LinkedList" << endl;
-	testRandomDelete(lList, cityList1, TESTROUNDS);
-	cout << endl;
-
-	cout << "Testing delete - S_LinkedList" << endl;
-	testRandomDelete(SLList, cityList1, TESTROUNDS);
-	cout << endl;
-
-	cout << "Testing delete - ArrayList" << endl;
 	testRandomDelete(aList, cityList1, TESTROUNDS);
-	cout << endl;
+	testInsert(aList, cityList2, TESTROUNDS);
+	//Testing HT Search and Delete
+	testHTSearch(aList2, cityList1);
+	//testHTDelete(aList2, cityList1);
+	//Testing Search and Delete by coordinates
+	testRandomSearchByCoordinates(aList3, cityList1, TESTROUNDS);
+	testRandomDeleteByCoordinates(aList3, cityList1, TESTROUNDS);
+	cout << endl << endl;
 
-	cout << "Testing delete - S_AList" << endl;
+	//Testing S_AList
+	cout << "Testing S_AList... " << endl;
+	//Testing Search by name, Random Delete and Insert
+	testRandomSearch(SAList, cityList1, TESTROUNDS);
 	testRandomDelete(SAList, cityList1, TESTROUNDS);
-	cout << endl;
+	testInsert(SAList, cityList2, TESTROUNDS);
+	//Testing Search and Delete by coordinates
+	testRandomSearchByCoordinates(SAList3, cityList1, TESTROUNDS);
+	testRandomDeleteByCoordinates(SAList3, cityList1, TESTROUNDS);
+	cout << endl << endl;
 
-	
+	//Testing LinkedList
+	cout << "Testing LinkedList... " << endl;
+	//Testing Search by name, Random Delete and Insert
+	testRandomSearch(lList, cityList1, TESTROUNDS);
+	testRandomDelete(lList, cityList1, TESTROUNDS);
+	testInsert(lList, cityList2, TESTROUNDS);
+	//Testing HT Search and Delete
+	testHTSearch(lList2, cityList1);
+	testHTDelete(lList2, cityList1);
+	//Testing Search and Delete by coordinates
+	testRandomSearchByCoordinates(lList3, cityList1, TESTROUNDS);
+	testRandomDeleteByCoordinates(lList3, cityList1, TESTROUNDS);
+	cout << endl << endl;
+
+	//Testing S_LinkedList
+	cout << "Testing S_LinkedList... " << endl;
+	//Testing Search by name, Random Delete and Insert
+	testRandomSearch(SLList, cityList1, TESTROUNDS);
+	testRandomDelete(SLList, cityList1, TESTROUNDS);
+	testInsert(SLList, cityList2, TESTROUNDS);
+	//Testing Search and Delete by coordinates
+	testRandomSearchByCoordinates(SLList3, cityList1, TESTROUNDS);
+	testRandomDeleteByCoordinates(SLList3, cityList1, TESTROUNDS);
+	cout << endl << endl;
 }

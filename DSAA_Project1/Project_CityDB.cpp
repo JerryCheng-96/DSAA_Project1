@@ -197,6 +197,7 @@ public:
 				return curr->next;
 			}
 		}
+		return NULL;
 	}
 
 	//打印出位于目标城市给定半径内的城市的记录
