@@ -422,7 +422,7 @@ public:
 	{
 		if (cnt < MAXLEN)
 		{
-			elements[cnt] = ele;
+			elements[cnt] = new City(ele->getName(), ele->getCoord());
 			cnt++;
 		}
 		else
@@ -521,6 +521,7 @@ public:
 			{
 				deleteCurr();
 				curr = i;
+				this->cnt--;
 				return;
 			}
 		}
@@ -805,6 +806,7 @@ public:
 		}
 		if (curr != -1)
 		{
+			this->cnt--;
 			deleteCurr();
 		}
 	}

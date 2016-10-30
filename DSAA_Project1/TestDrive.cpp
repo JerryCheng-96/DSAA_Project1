@@ -1,7 +1,7 @@
 
 #define _CRT_SECURE_NO_WARNINGS
-#define CLISTSIZE 100
-#define TESTROUNDS 10
+#define CLISTSIZE 1000
+#define TESTROUNDS 100
 
 #include "Project_CityDB.cpp"
 
@@ -704,7 +704,7 @@ void main() {
 	testInsert(aList, cityList2, TESTROUNDS);
 	//Testing HT Search and Delete
 	testHTSearch(aList2, cityList1);
-	//testHTDelete(aList2, cityList1);
+	testHTDelete(aList2, cityList1);
 	//Testing Search and Delete by coordinates
 	testRandomSearchByCoordinates(aList3, cityList1, TESTROUNDS);
 	testRandomDeleteByCoordinates(aList3, cityList1, TESTROUNDS);
