@@ -38,6 +38,9 @@ void testRandomSearchByCoordinates(ArrayList* list, City** cityList, int testTim
 void testRandomDeleteByCoordinates(LList* list, City** cityList, int testTimes);
 void testRandomDeleteByCoordinates(ArrayList* list, City** cityList, int testTimes);
 
+void testInsert(ArrayList* list, City** cityList, int testTimes);
+void testInsert(LList* list, City** cityList, int testTimes);
+
 
 void genRandomCities(City * cityList[], int n)
 {
@@ -383,6 +386,7 @@ void testRandomDelete(ArrayList * list, City ** cityList, int testTimes)
 	cout << "Testing delete succeeded. Test rounds: " << TESTROUNDS << ", Time consumed in ms: " << (end - start) << endl;
 }
 
+
 void testRandomSearchByCoordinates(LList * list, City ** cityList, int testTimes)
 {
 	int randNo;
@@ -518,6 +522,71 @@ void testRandomDeleteByCoordinates(ArrayList * list, City ** cityList, int testT
 	end = clock();
 
 	cout << "Testing delete succeeded. Test rounds: " << TESTROUNDS << ", Time consumed in ms: " << (end - start) << endl;
+}
+
+
+void testInsert(ArrayList * list, City ** cityList, int testTimes)
+{
+	int randNo;
+	City* elementFound;
+	string cityInserted;
+	clock_t start = 0;
+	clock_t end = 0;
+
+	srand(time(NULL));
+
+	start = clock();
+	for (int i = 0; i < testTimes - 1; i++)
+	{
+		elementFound = NULL;
+		randNo = rand() % CLISTSIZE;
+
+		cityInserted = cityList[randNo]->getName();
+		list->append(cityList[randNo]);
+		elementFound = list->searchBy(cityInserted);
+
+		if (!elementFound)
+		{
+			cout << "Testing insert failed. i = " << i << ", The element: ";
+			elementFound->print();
+			return;
+		}
+	}
+	end = clock();
+
+	cout << "Testing insert succeeded. Test rounds: " << TESTROUNDS - 1 << ", Time consumed in ms: " << (end - start) << endl;
+}
+
+void testInsert(LList * list, City ** cityList, int testTimes)
+{
+	int randNo;
+	Link* elementFound;
+	string cityInserted;
+	clock_t start = 0;
+	clock_t end = 0;
+
+	srand(time(NULL));
+
+	start = clock();
+	for (int i = 0; i < testTimes - 1; i++)
+	{
+		elementFound = NULL;
+		randNo = rand() % CLISTSIZE;
+
+		cityInserted = cityList[randNo]->getName();
+		list->append(cityList[randNo]);
+		elementFound = list->searchBy(cityInserted);
+
+		if (!elementFound)
+		{
+			cout << "Testing insert failed. i = " << i << ", The element: ";
+			elementFound->element->print();
+			return;
+		}
+	}
+	end = clock();
+
+	cout << "Testing insert succeeded. Test rounds: " << TESTROUNDS - 1 << ", Time consumed in ms: " << (end - start) << endl;
 }
 
 
