@@ -1,7 +1,7 @@
 
 #define _CRT_SECURE_NO_WARNINGS
-#define CLISTSIZE 50000
-#define TESTROUNDS 500
+#define CLISTSIZE 100
+#define TESTROUNDS 10
 
 #include "Project_CityDB.cpp"
 
@@ -32,6 +32,12 @@ void testRandomDelete(LList* list, City** cityList, int testTimes);
 void testRandomDelete(ArrayList* list, City** cityList, int testTimes);
 void testHTDelete(LList* list, City** cityList);
 void testHTDelete(ArrayList* list, City** cityList);
+
+void testRandomSearchByCoordinates(LList* list, City** cityList, int testTimes);
+void testRandomSearchByCoordinates(ArrayList* list, City** cityList, int testTimes);
+void testRandomDeleteByCoordinates(LList* list, City** cityList, int testTimes);
+void testRandomDeleteByCoordinates(ArrayList* list, City** cityList, int testTimes);
+
 
 void genRandomCities(City * cityList[], int n)
 {
@@ -377,16 +383,148 @@ void testRandomDelete(ArrayList * list, City ** cityList, int testTimes)
 	cout << "Testing delete succeeded. Test rounds: " << TESTROUNDS << ", Time consumed in ms: " << (end - start) << endl;
 }
 
-void testHTDelete(LList * list, City ** cityList)
+void testRandomSearchByCoordinates(LList * list, City ** cityList, int testTimes)
 {
-	;
+	int randNo;
+	Link* elementFound = NULL;
+	clock_t start = 0;
+	clock_t end = 0;
+
+	srand(time(NULL));
+
+	start = clock();
+	for (int i = 0; i < testTimes; i++)
+	{
+		elementFound = NULL;
+		randNo = rand() % CLISTSIZE;
+
+		elementFound = list->searchBy(cityList[randNo]->getCoord());
+
+		if (!cityList[randNo]->equals(elementFound->element))
+		{
+			cout << "Random Search Test failed. Now at ";
+			cityList[randNo]->print();
+			cout << endl;
+			return;
+		}
+	}
+	end = clock();
+	cout << "Random Search OK. Test rounds: " << TESTROUNDS << ", Time consumed in ms: " << end - start << endl;
 }
+
+void testRandomSearchByCoordinates(ArrayList * list, City ** cityList, int testTimes)
+{
+	int randNo;
+	City* elementFound = NULL;
+	clock_t start = 0;
+	clock_t end = 0;
+
+	srand(time(NULL));
+
+	start = clock();
+	for (int i = 0; i < testTimes; i++)
+	{
+		elementFound = NULL;
+		randNo = rand() % CLISTSIZE;
+
+		elementFound = list->searchBy(cityList[randNo]->getCoord());
+
+		if (!cityList[randNo]->equals(elementFound))
+		{
+			cout << "Random Search Test failed. Now at ";
+			cityList[randNo]->print();
+			cout << endl;
+			return;
+		}
+	}
+	end = clock();
+
+	cout << "Random Search OK. Test rounds: " << TESTROUNDS << ", Time consumed in ms: " << end - start << endl;
+}
+
+void testRandomDeleteByCoordinates(LList * list, City ** cityList, int testTimes)
+{
+	int randNo;
+	Link* elementFound = NULL;
+	int elementDeleted[2];
+	clock_t start;
+	clock_t end;
+
+	srand(time(NULL));
+
+	if (testTimes > CLISTSIZE)
+	{
+		cout << "Too many test rounds." << endl;
+		return;
+	}
+
+	start = clock();
+	for (int i = 0; i < testTimes; i++)
+	{
+		elementFound = NULL;
+		randNo = rand() % CLISTSIZE;
+
+		elementDeleted[0] = cityList[randNo]->getCoord()[0];
+		elementDeleted[1] = cityList[randNo]->getCoord()[1];
+		list->deleteBy(cityList[randNo]->getCoord());
+		elementFound = list->searchBy(elementDeleted);
+
+		if (elementFound)
+		{
+			cout << "Testing delete failed. i = " << i << ", The element: ";
+			elementFound->element->print();
+			return;
+		}
+
+	}
+	end = clock();
+	cout << "Testing delete succeeded. Test rounds: " << TESTROUNDS << ", Time consumed in ms: " << (end - start) << endl;
+}
+
+void testRandomDeleteByCoordinates(ArrayList * list, City ** cityList, int testTimes)
+{
+	int randNo;
+	City* elementFound = NULL;
+	int elementDeleted[2];
+	clock_t start = 0;
+	clock_t end = 0;
+
+	srand(time(NULL));
+
+	if (testTimes > CLISTSIZE)
+	{
+		cout << "Too many test rounds." << endl;
+		return;
+	}
+
+	start = clock();
+	for (int i = 0; i < testTimes; i++)
+	{
+		elementFound = NULL;
+		randNo = rand() % CLISTSIZE;
+
+		elementDeleted[0] = cityList[randNo]->getCoord()[0];
+		elementDeleted[1] = cityList[randNo]->getCoord()[1];
+		list->deleteBy(cityList[randNo]->getCoord());
+		elementFound = list->searchBy(elementDeleted);
+
+		if (elementFound)
+		{
+			cout << "Testing delete failed. i = " << i << ", The element: ";
+			elementFound->print();
+			return;
+		}
+	}
+	end = clock();
+
+	cout << "Testing delete succeeded. Test rounds: " << TESTROUNDS << ", Time consumed in ms: " << (end - start) << endl;
+}
+
+
 
 void main() {
 	//Generating all test cases
-	genAllTestDB();
-
-	/*
+	//genAllTestDB();
 
 	//Initializing cityDB
 	City * cityList1[CLISTSIZE];
@@ -476,5 +614,5 @@ void main() {
 	testRandomDelete(SAList, cityList1, TESTROUNDS);
 	cout << endl;
 
-	*/
+	
 }

@@ -233,6 +233,7 @@ public:
 	virtual City* searchBy(const string&) = 0;
 	virtual void deleteBy(const string&) = 0;
 
+
 	//É¾³ýµ±Ç°¼ÇÂ¼
 	void deleteCurr()
 	{
@@ -268,6 +269,22 @@ public:
 		}
 		//cout << "Target not found." << endl;
 		return NULL;
+	}
+
+	void deleteBy(const int target[])
+	{
+		int i = curr;
+		for (curr = 0; curr < cnt; curr++)
+		{
+			if (target[0] == elements[i]->getX() && target[1] == elements[i]->getY())
+			{
+				deleteCurr();
+				curr = i;
+				return;
+			}
+		}
+		//cout << "Target not found." << endl;
+		return;
 	}
 };
 
@@ -500,22 +517,6 @@ public:
 		for (curr = 0, i = 0; curr < cnt; curr++, i++)
 		{
 			if (target == elements[curr]->getName())
-			{
-				deleteCurr();
-				curr = i;
-				return;
-			}
-		}
-		//cout << "Target not found." << endl;
-		return;
-	}
-
-	void deleteBy(const int target[])
-	{
-		int i = curr;
-		for (curr = 0; curr < cnt; curr++)
-		{
-			if (target[0] == elements[i]->getX() && target[1] == elements[i]->getY())
 			{
 				deleteCurr();
 				curr = i;
