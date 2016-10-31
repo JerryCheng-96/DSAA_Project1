@@ -1,6 +1,6 @@
 
 #define _CRT_SECURE_NO_WARNINGS
-#define CLISTSIZE 1000
+#define CLISTSIZE 10000
 #define TESTROUNDS 100
 
 #include "Project_CityDB.cpp"
@@ -63,8 +63,8 @@ void genRandomCities(City * cityList[], int n)
 		string* strName = new string(nowName);
 
 		//Generating random city coordinates
-		nowCoo[0] = rand() % 1000;
-		nowCoo[1] = rand() % 1000;
+		nowCoo[0] = rand() % 100000;
+		nowCoo[1] = rand() % 100000;
 
 		//New City
 		cityList[i] = new City(*strName, nowCoo);
@@ -696,6 +696,7 @@ void main() {
 
 	cout << "All DB Loaded." << endl << endl;
 
+	/*
 	//Testing AList
 	cout << "Testing AList... " << endl;
 	//Testing Search by name, Random Delete and Insert
@@ -720,6 +721,8 @@ void main() {
 	testRandomSearchByCoordinates(SAList3, cityList1, TESTROUNDS);
 	testRandomDeleteByCoordinates(SAList3, cityList1, TESTROUNDS);
 	cout << endl << endl;
+
+	*/
 
 	//Testing LinkedList
 	cout << "Testing LinkedList... " << endl;
