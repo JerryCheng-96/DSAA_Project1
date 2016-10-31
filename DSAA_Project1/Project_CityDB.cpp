@@ -236,6 +236,7 @@ public:
 
 
 	//删除当前记录
+	/*
 	void deleteCurr()
 	{
 		if (cnt != 0 && curr < cnt)
@@ -258,6 +259,27 @@ public:
 			cnt--;
 		}
 	}
+	*/
+
+	void deleteCurr()
+	{
+		if (curr >= 0 && curr < cnt && cnt > 0)
+		{
+			delete elements[curr];
+			if (curr != cnt - 1)
+			{
+				for (int i = curr; i < cnt - 1; i++)
+				{
+					elements[i] = elements[i + 1];
+				}
+			}
+			else
+			{
+				curr--;
+			}
+			cnt--;
+		}
+	}
 
 	City* searchBy(const int target[])
 	{
@@ -272,21 +294,7 @@ public:
 		return NULL;
 	}
 
-	void deleteBy(const int target[])
-	{
-		int i = curr;
-		for (curr = 0; curr < cnt; curr++)
-		{
-			if (target[0] == elements[i]->getX() && target[1] == elements[i]->getY())
-			{
-				deleteCurr();
-				curr = i;
-				return;
-			}
-		}
-		//cout << "Target not found." << endl;
-		return;
-	}
+	virtual void deleteBy(const int target[]) = 0;
 };
 
 //无序 含头节点的单链表
@@ -526,6 +534,20 @@ public:
 			}
 		}
 		//cout << "Target not found." << endl;
+		return;
+	}
+
+	void deleteBy(const int target[])
+	{
+		for (curr = 0; curr < cnt; curr++)
+		{
+			if (target[0] == elements[curr]->getX() && target[1] == elements[curr]->getY())
+			{
+				deleteCurr();
+				return;
+			}
+		}
+		cout << "Target not found." << endl;
 		return;
 	}
 
@@ -809,6 +831,20 @@ public:
 			this->cnt--;
 			deleteCurr();
 		}
+	}
+
+	void deleteBy(const int target[])
+	{
+		for (curr = 0; curr < cnt; curr++)
+		{
+			if (target[0] == elements[curr]->getX() && target[1] == elements[curr]->getY())
+			{
+				deleteCurr();
+				return;
+			}
+		}
+		cout << "Target not found." << endl;
+		return;
 	}
 
 	//打印出位于目标城市给定半径内的城市的记录

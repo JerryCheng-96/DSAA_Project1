@@ -631,9 +631,9 @@ void testInsert(LList * list, City ** cityList, int testTimes)
 
 void main() {
 	//Generating all test cases
-	genAllTestDB();
+	//genAllTestDB();
 
-	/*
+	
 
 	//Initializing cityDB
 	City * cityList1[CLISTSIZE];
@@ -695,7 +695,6 @@ void main() {
 	SAList3->cnt = CLISTSIZE;
 
 	cout << "All DB Loaded." << endl << endl;
-
 	
 	//Testing AList
 	cout << "Testing AList... " << endl;
@@ -709,6 +708,7 @@ void main() {
 	//Testing Search and Delete by coordinates
 	testRandomSearchByCoordinates(aList3, cityList1, TESTROUNDS);
 	testRandomDeleteByCoordinates(aList3, cityList1, TESTROUNDS);
+	//aList3->deleteBy(aList3->elements[2]->getCoord());
 	cout << endl << endl;
 
 	//Testing S_AList
@@ -746,6 +746,4 @@ void main() {
 	testRandomSearchByCoordinates(SLList3, cityList1, TESTROUNDS);
 	testRandomDeleteByCoordinates(SLList3, cityList1, TESTROUNDS);
 	cout << endl << endl;
-
-	*/
 }
