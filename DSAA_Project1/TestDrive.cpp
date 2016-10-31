@@ -89,8 +89,6 @@ void genAllTestDB()
 	fillLists(SLL, cityList, CLISTSIZE);
 	saveCityList(SLL, name1s->c_str());
 
-	system("pause");
-
 	string* name2 = new string("CityList2_" + to_string(CLISTSIZE) + ".dat");
 	string* name2s = new string("CityList2_" + to_string(CLISTSIZE) + "_Sorted.dat");
 	genCityDB(name2->c_str());
@@ -633,7 +631,9 @@ void testInsert(LList * list, City ** cityList, int testTimes)
 
 void main() {
 	//Generating all test cases
-	//genAllTestDB();
+	genAllTestDB();
+
+	/*
 
 	//Initializing cityDB
 	City * cityList1[CLISTSIZE];
@@ -696,7 +696,7 @@ void main() {
 
 	cout << "All DB Loaded." << endl << endl;
 
-	/*
+	
 	//Testing AList
 	cout << "Testing AList... " << endl;
 	//Testing Search by name, Random Delete and Insert
@@ -722,8 +722,6 @@ void main() {
 	testRandomDeleteByCoordinates(SAList3, cityList1, TESTROUNDS);
 	cout << endl << endl;
 
-	*/
-
 	//Testing LinkedList
 	cout << "Testing LinkedList... " << endl;
 	//Testing Search by name, Random Delete and Insert
@@ -748,4 +746,6 @@ void main() {
 	testRandomSearchByCoordinates(SLList3, cityList1, TESTROUNDS);
 	testRandomDeleteByCoordinates(SLList3, cityList1, TESTROUNDS);
 	cout << endl << endl;
+
+	*/
 }
