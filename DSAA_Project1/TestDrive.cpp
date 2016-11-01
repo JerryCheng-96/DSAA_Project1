@@ -2,8 +2,10 @@
 #define _CRT_SECURE_NO_WARNINGS
 #define CLISTSIZE 1000
 #define TESTROUNDS 100
-#define RANDOMSEED 1478006688
-#define TESTCASES 0
+#define RANDOMSEED 1478007507
+//1478006927
+//1478006688
+#define TESTCASES 2
 
 #include "Project_CityDB.cpp"
 
@@ -245,6 +247,7 @@ void printList(ArrayList* list) {
 void testRandomSearch(LList * list, City** cityList, int testTimes)
 {
 	int randNo;
+	int* randList = (int*)malloc(sizeof(int) * testTimes);
 	Link* elementFound = NULL;
 	clock_t start = 0;
 	clock_t end = 0;
@@ -265,6 +268,17 @@ void testRandomSearch(LList * list, City** cityList, int testTimes)
 	{
 		elementFound = NULL;
 		randNo = rand() % CLISTSIZE;
+
+		for (int j = 0; j < testTimes; j++)
+		{
+			if (randNo == randList[j])
+			{
+				randNo = rand() % CLISTSIZE;
+				j = 0;
+				continue;
+			}
+		}
+		randList[testTimes] = randNo;
 
 		elementFound = list->searchBy(cityList[randNo]->getName());
 
@@ -306,6 +320,7 @@ void testHTSearch(LList * list, City** cityList)
 void testRandomSearch(ArrayList* list, City** cityList, int testTimes)
 {
 	int randNo;
+	int* randList = (int*)malloc(sizeof(int) * testTimes);
 	City* elementFound = NULL;
 	clock_t start = 0;
 	clock_t end = 0;
@@ -326,6 +341,17 @@ void testRandomSearch(ArrayList* list, City** cityList, int testTimes)
 	{
 		elementFound = NULL;
 		randNo = rand() % CLISTSIZE;
+
+		for (int j = 0; j < testTimes; j++)
+		{
+			if (randNo == randList[j])
+			{
+				randNo = rand() % CLISTSIZE;
+				j = 0;
+				continue;
+			}
+		}
+		randList[testTimes] = randNo;
 
 		elementFound = list->searchBy(cityList[randNo]->getName());
 
@@ -369,6 +395,7 @@ void testHTSearch(ArrayList* list, City** cityList)
 void testRandomDelete(LList * list, City ** cityList, int testTimes)
 {
 	int randNo;
+	int* randList = (int*)malloc(sizeof(int) * testTimes);
 	Link* elementFound = NULL;
 	string elementDeleted;
 	clock_t start;
@@ -397,6 +424,17 @@ void testRandomDelete(LList * list, City ** cityList, int testTimes)
 		elementFound = NULL;
 		randNo = rand() % CLISTSIZE;
 
+		for (int j = 0; j < testTimes; j++)
+		{
+			if (randNo == randList[j])
+			{
+				randNo = rand() % CLISTSIZE;
+				j = 0;
+				continue;
+			}
+		}
+		randList[testTimes] = randNo;
+
 		elementDeleted = cityList[randNo]->getName();
 		list->deleteBy(cityList[randNo]->getName());
 		elementFound = list->searchBy(elementDeleted);
@@ -416,6 +454,7 @@ void testRandomDelete(LList * list, City ** cityList, int testTimes)
 void testRandomDelete(ArrayList * list, City ** cityList, int testTimes)
 {
 	int randNo;
+	int* randList = (int*)malloc(sizeof(int) * testTimes);
 	City* elementFound = NULL;
 	string elementDeleted;
 	clock_t start = 0;
@@ -443,6 +482,17 @@ void testRandomDelete(ArrayList * list, City ** cityList, int testTimes)
 	{
 		elementFound = NULL;
 		randNo = rand() % CLISTSIZE;
+
+		for (int j = 0; j < testTimes; j++)
+		{
+			if (randNo == randList[j])
+			{
+				randNo = rand() % CLISTSIZE;
+				j = 0;
+				continue;
+			}
+		}
+		randList[testTimes] = randNo;
 
 		elementDeleted = cityList[randNo]->getName();
 		list->deleteBy(cityList[randNo]->getName());
@@ -502,6 +552,7 @@ void testHTDelete(ArrayList * list, City ** cityList)
 void testRandomSearchByCoordinates(LList * list, City ** cityList, int testTimes)
 {
 	int randNo;
+	int* randList = (int*)malloc(sizeof(int) * testTimes);
 	Link* elementFound = NULL;
 	clock_t start = 0;
 	clock_t end = 0;
@@ -523,6 +574,17 @@ void testRandomSearchByCoordinates(LList * list, City ** cityList, int testTimes
 		elementFound = NULL;
 		randNo = rand() % CLISTSIZE;
 
+		for (int j = 0; j < testTimes; j++)
+		{
+			if (randNo == randList[j])
+			{
+				randNo = rand() % CLISTSIZE;
+				j = 0;
+				continue;
+			}
+		}
+		randList[testTimes] = randNo;
+
 		elementFound = list->searchBy(cityList[randNo]->getCoord());
 
 		if (!cityList[randNo]->equals(elementFound->element))
@@ -540,6 +602,7 @@ void testRandomSearchByCoordinates(LList * list, City ** cityList, int testTimes
 void testRandomSearchByCoordinates(ArrayList * list, City ** cityList, int testTimes)
 {
 	int randNo;
+	int* randList = (int*)malloc(sizeof(int) * testTimes);
 	City* elementFound = NULL;
 	clock_t start = 0;
 	clock_t end = 0;
@@ -561,6 +624,17 @@ void testRandomSearchByCoordinates(ArrayList * list, City ** cityList, int testT
 		elementFound = NULL;
 		randNo = rand() % CLISTSIZE;
 
+		for (int j = 0; j < testTimes; j++)
+		{
+			if (randNo == randList[j])
+			{
+				randNo = rand() % CLISTSIZE;
+				j = 0;
+				continue;
+			}
+		}
+		randList[testTimes] = randNo;
+
 		elementFound = list->searchBy(cityList[randNo]->getCoord());
 
 		if (!cityList[randNo]->equals(elementFound))
@@ -579,6 +653,7 @@ void testRandomSearchByCoordinates(ArrayList * list, City ** cityList, int testT
 void testRandomDeleteByCoordinates(LList * list, City ** cityList, int testTimes)
 {
 	int randNo;
+	int* randList = (int*)malloc(sizeof(int) * testTimes);
 	Link* elementFound = NULL;
 	int elementDeleted[2];
 	clock_t start;
@@ -607,6 +682,17 @@ void testRandomDeleteByCoordinates(LList * list, City ** cityList, int testTimes
 		elementFound = NULL;
 		randNo = rand() % CLISTSIZE;
 
+		for (int j = 0; j < testTimes; j++)
+		{
+			if (randNo == randList[j])
+			{
+				randNo = rand() % CLISTSIZE;
+				j = 0;
+				continue;
+			}
+		}
+		randList[testTimes] = randNo;
+
 		elementDeleted[0] = cityList[randNo]->getCoord()[0];
 		elementDeleted[1] = cityList[randNo]->getCoord()[1];
 		list->deleteBy(cityList[randNo]->getCoord());
@@ -627,6 +713,7 @@ void testRandomDeleteByCoordinates(LList * list, City ** cityList, int testTimes
 void testRandomDeleteByCoordinates(ArrayList * list, City ** cityList, int testTimes)
 {
 	int randNo;
+	int* randList = (int*)malloc(sizeof(int) * testTimes);
 	City* elementFound = NULL;
 	int elementDeleted[2];
 	clock_t start = 0;
@@ -655,6 +742,17 @@ void testRandomDeleteByCoordinates(ArrayList * list, City ** cityList, int testT
 		elementFound = NULL;
 		randNo = rand() % CLISTSIZE;
 
+		for (int j = 0; j < testTimes; j++)
+		{
+			if (randNo == randList[j])
+			{
+				randNo = rand() % CLISTSIZE;
+				j = 0;
+				continue;
+			}
+		}
+		randList[testTimes] = randNo;
+
 		elementDeleted[0] = cityList[randNo]->getCoord()[0];
 		elementDeleted[1] = cityList[randNo]->getCoord()[1];
 		list->deleteBy(cityList[randNo]->getCoord());
@@ -676,6 +774,7 @@ void testRandomDeleteByCoordinates(ArrayList * list, City ** cityList, int testT
 void testInsert(ArrayList * list, City ** cityList, int testTimes)
 {
 	int randNo;
+	int* randList = (int*)malloc(sizeof(int) * testTimes);
 	City* elementFound;
 	string cityInserted;
 	clock_t start = 0;
@@ -698,6 +797,17 @@ void testInsert(ArrayList * list, City ** cityList, int testTimes)
 		elementFound = NULL;
 		randNo = rand() % CLISTSIZE;
 
+		for (int j = 0; j < testTimes; j++)
+		{
+			if (randNo == randList[j])
+			{
+				randNo = rand() % CLISTSIZE;
+				j = 0;
+				continue;
+			}
+		}
+		randList[testTimes] = randNo;
+
 		cityInserted = cityList[randNo]->getName();
 		list->append(cityList[randNo]);
 		elementFound = list->searchBy(cityInserted);
@@ -717,6 +827,7 @@ void testInsert(ArrayList * list, City ** cityList, int testTimes)
 void testInsert(LList * list, City ** cityList, int testTimes)
 {
 	int randNo;
+	int* randList = (int*)malloc(sizeof(int) * testTimes);
 	Link* elementFound;
 	string cityInserted;
 	clock_t start = 0;
@@ -738,6 +849,17 @@ void testInsert(LList * list, City ** cityList, int testTimes)
 	{
 		elementFound = NULL;
 		randNo = rand() % CLISTSIZE;
+
+		for (int j = 0; j < testTimes; j++)
+		{
+			if (randNo == randList[j])
+			{
+				randNo = rand() % CLISTSIZE;
+				j = 0;
+				continue;
+			}
+		}
+		randList[testTimes] = randNo;
 
 		cityInserted = cityList[randNo]->getName();
 		list->append(cityList[randNo]);

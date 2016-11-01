@@ -1,3 +1,5 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <iostream>
 #include <string>
 #include <ctime>
@@ -313,11 +315,29 @@ public:
 				return elements[i];
 			}
 		}
-		//cout << "Target not found." << endl;
+		cout << "Target not found." << endl;
 		return NULL;
 	}
 
 	virtual void deleteBy(const int target[]) = 0;
+
+	void saveListText(City * cityList[], const char * name, int testTimes)
+	{
+		FILE* fp = fopen(name, "w");
+		string cityInfo;
+
+		for (int i = 0; i < testTimes; i++)
+		{
+			fprintf(fp, cityList[i]->printStr().c_str());
+		}
+
+		if (fp != NULL)
+		{
+			fclose(fp);
+			fp = NULL;
+		}
+
+	}
 };
 
 //无序 含头节点的单链表
@@ -556,7 +576,7 @@ public:
 				return;
 			}
 		}
-		//cout << "Target not found." << endl;
+		cout << "Target not found." << endl;
 		return;
 	}
 
@@ -571,6 +591,7 @@ public:
 			}
 		}
 		cout << "Target not found." << endl;
+		
 		return;
 	}
 
