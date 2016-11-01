@@ -1,7 +1,8 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 #define CLISTSIZE 10000
-#define TESTROUNDS 100
+#define TESTROUNDS 500
+#define RANDOMSEED 0
 
 #include "Project_CityDB.cpp"
 
@@ -135,6 +136,42 @@ void saveCityList(LList * cityList, const char * name)
 	}
 }
 
+void saveCityListText(City * cityList[], const char * name)
+{
+	FILE* fp = fopen(name, "w");
+	string cityInfo;
+
+	for (int i = 0; i < CLISTSIZE; i++)
+	{
+		fprintf(fp, cityList[i]->printStr().c_str());
+	}
+
+	if (fp != NULL)
+	{
+		fclose(fp);
+		fp = NULL;
+	}
+
+}
+
+void saveCityListText(LList * cityList, const char * name)
+{
+	FILE* fp = fopen(name, "w");
+
+	while (cityList->curr->next)
+	{
+		fprintf(fp, cityList->curr->next->element->printStr().c_str());
+		cityList->curr = cityList->curr->next;
+	}
+
+	if (fp != NULL)
+	{
+		fclose(fp);
+		fp = NULL;
+	}
+}
+
+
 
 void readCityList(City * cityList[], const char * name)
 {
@@ -182,7 +219,7 @@ void readCityList(LList * cityList, const char * name)
 void fillLists(Lists* list, City* ori[], int size) {
 	for (int i = 0; i < size; i++)
 	{
-		list->append(ori[i]);
+		list->append(new City(ori[i]));
 	}
 }
 
@@ -211,7 +248,16 @@ void testRandomSearch(LList * list, City** cityList, int testTimes)
 	clock_t start = 0;
 	clock_t end = 0;
 
-	srand(time(NULL));
+	if (!RANDOMSEED)
+	{
+		time_t nowTime = time(NULL);
+		srand(nowTime);
+		cout << "The seed: " << nowTime << endl;
+	}
+	else
+	{
+		srand(RANDOMSEED);
+	}
 
 	start = clock();
 	for (int i = 0; i < testTimes; i++)
@@ -263,7 +309,16 @@ void testRandomSearch(ArrayList* list, City** cityList, int testTimes)
 	clock_t start = 0;
 	clock_t end = 0;
 
-	srand(time(NULL));
+	if (!RANDOMSEED)
+	{
+		time_t nowTime = time(NULL);
+		srand(nowTime);
+		cout << "The seed: " << nowTime << endl;
+	}
+	else
+	{
+		srand(RANDOMSEED);
+	}
 
 	start = clock();
 	for (int i = 0; i < testTimes; i++)
@@ -318,7 +373,16 @@ void testRandomDelete(LList * list, City ** cityList, int testTimes)
 	clock_t start;
 	clock_t end;
 
-	srand(time(NULL));
+	if (!RANDOMSEED)
+	{
+		time_t nowTime = time(NULL);
+		srand(nowTime);
+		cout << "The seed: " << nowTime << endl;
+	}
+	else
+	{
+		srand(RANDOMSEED);
+	}
 
 	if (testTimes > CLISTSIZE)
 	{
@@ -356,7 +420,16 @@ void testRandomDelete(ArrayList * list, City ** cityList, int testTimes)
 	clock_t start = 0;
 	clock_t end = 0;
 
-	srand(time(NULL));
+	if (!RANDOMSEED)
+	{
+		time_t nowTime = time(NULL);
+		srand(nowTime);
+		cout << "The seed: " << nowTime << endl;
+	}
+	else
+	{
+		srand(RANDOMSEED);
+	}
 
 	if (testTimes > CLISTSIZE)
 	{
@@ -432,7 +505,16 @@ void testRandomSearchByCoordinates(LList * list, City ** cityList, int testTimes
 	clock_t start = 0;
 	clock_t end = 0;
 
-	srand(time(NULL));
+	if (!RANDOMSEED)
+	{
+		time_t nowTime = time(NULL);
+		srand(nowTime);
+		cout << "The seed: " << nowTime << endl;
+	}
+	else
+	{
+		srand(RANDOMSEED);
+	}
 
 	start = clock();
 	for (int i = 0; i < testTimes; i++)
@@ -461,7 +543,16 @@ void testRandomSearchByCoordinates(ArrayList * list, City ** cityList, int testT
 	clock_t start = 0;
 	clock_t end = 0;
 
-	srand(time(NULL));
+	if (!RANDOMSEED)
+	{
+		time_t nowTime = time(NULL);
+		srand(nowTime);
+		cout << "The seed: " << nowTime << endl;
+	}
+	else
+	{
+		srand(RANDOMSEED);
+	}
 
 	start = clock();
 	for (int i = 0; i < testTimes; i++)
@@ -492,7 +583,16 @@ void testRandomDeleteByCoordinates(LList * list, City ** cityList, int testTimes
 	clock_t start;
 	clock_t end;
 
-	srand(time(NULL));
+	if (!RANDOMSEED)
+	{
+		time_t nowTime = time(NULL);
+		srand(nowTime);
+		cout << "The seed: " << nowTime << endl;
+	}
+	else
+	{
+		srand(RANDOMSEED);
+	}
 
 	if (testTimes > CLISTSIZE)
 	{
@@ -531,7 +631,16 @@ void testRandomDeleteByCoordinates(ArrayList * list, City ** cityList, int testT
 	clock_t start = 0;
 	clock_t end = 0;
 
-	srand(time(NULL));
+	if (!RANDOMSEED)
+	{
+		time_t nowTime = time(NULL);
+		srand(nowTime);
+		cout << "The seed: " << nowTime << endl;
+	}
+	else
+	{
+		srand(RANDOMSEED);
+	}
 
 	if (testTimes > CLISTSIZE)
 	{
@@ -571,7 +680,16 @@ void testInsert(ArrayList * list, City ** cityList, int testTimes)
 	clock_t start = 0;
 	clock_t end = 0;
 
-	srand(time(NULL));
+	if (!RANDOMSEED)
+	{
+		time_t nowTime = time(NULL);
+		srand(nowTime);
+		cout << "The seed: " << nowTime << endl;
+	}
+	else
+	{
+		srand(RANDOMSEED);
+	}
 
 	start = clock();
 	for (int i = 0; i < testTimes - 1; i++)
@@ -603,7 +721,16 @@ void testInsert(LList * list, City ** cityList, int testTimes)
 	clock_t start = 0;
 	clock_t end = 0;
 
-	srand(time(NULL));
+	if (!RANDOMSEED)
+	{
+		time_t nowTime = time(NULL);
+		srand(nowTime);
+		cout << "The seed: " << nowTime << endl;
+	}
+	else
+	{
+		srand(RANDOMSEED);
+	}
 
 	start = clock();
 	for (int i = 0; i < testTimes - 1; i++)
@@ -631,17 +758,20 @@ void testInsert(LList * list, City ** cityList, int testTimes)
 
 void main() {
 	//Generating all test cases
-	//genAllTestDB();
-
-	
+	//genAllTestDB();	
 
 	//Initializing cityDB
 	City * cityList1[CLISTSIZE];
 	string* listName1 = new string("CityList1_" + to_string(CLISTSIZE) + ".dat");
+	//string* listName1t = new string("CityList1_" + to_string(CLISTSIZE) + ".txt");
 	readCityList(cityList1, listName1->c_str());
+	//saveCityListText(cityList1, listName1t->c_str());
+
 	City * cityList2[CLISTSIZE];
 	string* listName2 = new string("CityList2_" + to_string(CLISTSIZE) + ".dat");
+	//string* listName2t = new string("CityList2_" + to_string(CLISTSIZE) + ".txt");
 	readCityList(cityList2, listName2->c_str());
+	//saveCityListText(cityList2, listName2t->c_str());
 
 	//Variables for timing
 	clock_t start;
@@ -696,6 +826,8 @@ void main() {
 
 	cout << "All DB Loaded." << endl << endl;
 	
+	/*
+
 	//Testing AList
 	cout << "Testing AList... " << endl;
 	//Testing Search by name, Random Delete and Insert
@@ -721,6 +853,8 @@ void main() {
 	testRandomSearchByCoordinates(SAList3, cityList1, TESTROUNDS);
 	testRandomDeleteByCoordinates(SAList3, cityList1, TESTROUNDS);
 	cout << endl << endl;
+
+	*/
 
 	//Testing LinkedList
 	cout << "Testing LinkedList... " << endl;

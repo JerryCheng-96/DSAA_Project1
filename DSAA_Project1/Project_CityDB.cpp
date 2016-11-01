@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <ctime>
+#include <sstream>
 
 #define SQR(x) (x)*(x)
 
@@ -29,6 +30,13 @@ public:
 	}
 
 	City() {}
+
+	City(City* oriCity)
+	{
+		name = oriCity->getName();
+		coordinates[0] = oriCity->getCoord()[0];
+		coordinates[1] = oriCity->getCoord()[1];
+	}
 
 	//~City(){}
 
@@ -80,6 +88,21 @@ public:
 	{
 		cout << name << ",(" << coordinates[0] << "," << coordinates[1] << ")" << endl;
 		return;
+	}
+
+	string printStr()
+	{
+		stringstream strm1;
+		stringstream strm2;
+		string str1;
+		string str2;
+
+		strm1 << coordinates[0];
+		strm2 << coordinates[1];
+		strm1 >> str1;
+		strm2 >> str2;
+
+		return name + " " + str1 + "," + str2 + " " + '\n';
 	}
 
 	bool equals(City* anotherCity) {
