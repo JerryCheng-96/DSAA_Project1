@@ -5,7 +5,7 @@
 #define RANDOMSEED 1478007507
 //1478006927
 //1478006688
-#define TESTCASES 2
+#define TESTCASES 1
 
 #include "Project_CityDB.cpp"
 
@@ -269,7 +269,7 @@ void testRandomSearch(LList * list, City** cityList, int testTimes)
 		elementFound = NULL;
 		randNo = rand() % CLISTSIZE;
 
-		for (int j = 0; j < testTimes; j++)
+		for (int j = 0; j < i; j++)
 		{
 			if (randNo == randList[j])
 			{
@@ -278,7 +278,7 @@ void testRandomSearch(LList * list, City** cityList, int testTimes)
 				continue;
 			}
 		}
-		randList[testTimes] = randNo;
+		randList[i] = randNo;
 
 		elementFound = list->searchBy(cityList[randNo]->getName());
 
@@ -342,7 +342,7 @@ void testRandomSearch(ArrayList* list, City** cityList, int testTimes)
 		elementFound = NULL;
 		randNo = rand() % CLISTSIZE;
 
-		for (int j = 0; j < testTimes; j++)
+		for (int j = 0; j < i; j++)
 		{
 			if (randNo == randList[j])
 			{
@@ -351,7 +351,7 @@ void testRandomSearch(ArrayList* list, City** cityList, int testTimes)
 				continue;
 			}
 		}
-		randList[testTimes] = randNo;
+		randList[i] = randNo;
 
 		elementFound = list->searchBy(cityList[randNo]->getName());
 
@@ -424,7 +424,7 @@ void testRandomDelete(LList * list, City ** cityList, int testTimes)
 		elementFound = NULL;
 		randNo = rand() % CLISTSIZE;
 
-		for (int j = 0; j < testTimes; j++)
+		for (int j = 0; j < i; j++)
 		{
 			if (randNo == randList[j])
 			{
@@ -433,7 +433,7 @@ void testRandomDelete(LList * list, City ** cityList, int testTimes)
 				continue;
 			}
 		}
-		randList[testTimes] = randNo;
+		randList[i] = randNo;
 
 		elementDeleted = cityList[randNo]->getName();
 		list->deleteBy(cityList[randNo]->getName());
@@ -483,7 +483,7 @@ void testRandomDelete(ArrayList * list, City ** cityList, int testTimes)
 		elementFound = NULL;
 		randNo = rand() % CLISTSIZE;
 
-		for (int j = 0; j < testTimes; j++)
+		for (int j = 0; j < i; j++)
 		{
 			if (randNo == randList[j])
 			{
@@ -492,17 +492,30 @@ void testRandomDelete(ArrayList * list, City ** cityList, int testTimes)
 				continue;
 			}
 		}
-		randList[testTimes] = randNo;
+		randList[i] = randNo;
 
 		elementDeleted = cityList[randNo]->getName();
-		list->deleteBy(cityList[randNo]->getName());
 		elementFound = list->searchBy(elementDeleted);
-
-		if (elementFound)
+		if (!elementFound)
 		{
-			cout << "Testing delete failed. i = " << i << ", The element: ";
-			elementFound->print();
-			return;
+			cout << "The element to delete is not exist." << endl;
+			i--;
+			continue;
+		}
+		else
+		{
+			elementFound = NULL;
+			list->deleteBy(cityList[randNo]->getName());
+			elementFound = list->searchBy(elementDeleted);
+
+			if (elementFound)
+			{
+				cout << "Testing delete failed. i = " << i << ", The element: ";
+				elementFound->print();
+				return;
+			}
+			//string fileName = "DelNameAfter_" + elementDeleted + "_.txt";
+			//list->saveListText(list->elements, fileName.c_str(), list->cnt);
 		}
 	}
 	end = clock();
@@ -574,7 +587,7 @@ void testRandomSearchByCoordinates(LList * list, City ** cityList, int testTimes
 		elementFound = NULL;
 		randNo = rand() % CLISTSIZE;
 
-		for (int j = 0; j < testTimes; j++)
+		for (int j = 0; j < i; j++)
 		{
 			if (randNo == randList[j])
 			{
@@ -583,7 +596,7 @@ void testRandomSearchByCoordinates(LList * list, City ** cityList, int testTimes
 				continue;
 			}
 		}
-		randList[testTimes] = randNo;
+		randList[i] = randNo;
 
 		elementFound = list->searchBy(cityList[randNo]->getCoord());
 
@@ -624,7 +637,7 @@ void testRandomSearchByCoordinates(ArrayList * list, City ** cityList, int testT
 		elementFound = NULL;
 		randNo = rand() % CLISTSIZE;
 
-		for (int j = 0; j < testTimes; j++)
+		for (int j = 0; j < i; j++)
 		{
 			if (randNo == randList[j])
 			{
@@ -633,7 +646,7 @@ void testRandomSearchByCoordinates(ArrayList * list, City ** cityList, int testT
 				continue;
 			}
 		}
-		randList[testTimes] = randNo;
+		randList[i] = randNo;
 
 		elementFound = list->searchBy(cityList[randNo]->getCoord());
 
@@ -682,7 +695,7 @@ void testRandomDeleteByCoordinates(LList * list, City ** cityList, int testTimes
 		elementFound = NULL;
 		randNo = rand() % CLISTSIZE;
 
-		for (int j = 0; j < testTimes; j++)
+		for (int j = 0; j < i; j++)
 		{
 			if (randNo == randList[j])
 			{
@@ -691,7 +704,7 @@ void testRandomDeleteByCoordinates(LList * list, City ** cityList, int testTimes
 				continue;
 			}
 		}
-		randList[testTimes] = randNo;
+		randList[i] = randNo;
 
 		elementDeleted[0] = cityList[randNo]->getCoord()[0];
 		elementDeleted[1] = cityList[randNo]->getCoord()[1];
@@ -742,7 +755,7 @@ void testRandomDeleteByCoordinates(ArrayList * list, City ** cityList, int testT
 		elementFound = NULL;
 		randNo = rand() % CLISTSIZE;
 
-		for (int j = 0; j < testTimes; j++)
+		for (int j = 0; j < i; j++)
 		{
 			if (randNo == randList[j])
 			{
@@ -751,7 +764,7 @@ void testRandomDeleteByCoordinates(ArrayList * list, City ** cityList, int testT
 				continue;
 			}
 		}
-		randList[testTimes] = randNo;
+		randList[i] = randNo;
 
 		elementDeleted[0] = cityList[randNo]->getCoord()[0];
 		elementDeleted[1] = cityList[randNo]->getCoord()[1];
@@ -797,7 +810,7 @@ void testInsert(ArrayList * list, City ** cityList, int testTimes)
 		elementFound = NULL;
 		randNo = rand() % CLISTSIZE;
 
-		for (int j = 0; j < testTimes; j++)
+		for (int j = 0; j < i; j++)
 		{
 			if (randNo == randList[j])
 			{
@@ -806,7 +819,7 @@ void testInsert(ArrayList * list, City ** cityList, int testTimes)
 				continue;
 			}
 		}
-		randList[testTimes] = randNo;
+		randList[i] = randNo;
 
 		cityInserted = cityList[randNo]->getName();
 		list->append(cityList[randNo]);
@@ -850,7 +863,7 @@ void testInsert(LList * list, City ** cityList, int testTimes)
 		elementFound = NULL;
 		randNo = rand() % CLISTSIZE;
 
-		for (int j = 0; j < testTimes; j++)
+		for (int j = 0; j < i; j++)
 		{
 			if (randNo == randList[j])
 			{
@@ -859,7 +872,7 @@ void testInsert(LList * list, City ** cityList, int testTimes)
 				continue;
 			}
 		}
-		randList[testTimes] = randNo;
+		randList[i] = randNo;
 
 		cityInserted = cityList[randNo]->getName();
 		list->append(cityList[randNo]);

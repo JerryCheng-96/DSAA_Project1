@@ -326,6 +326,8 @@ public:
 		FILE* fp = fopen(name, "w");
 		string cityInfo;
 
+		fprintf(fp, "\n%d\n", this->cnt);
+
 		for (int i = 0; i < testTimes; i++)
 		{
 			fprintf(fp, cityList[i]->printStr().c_str());
@@ -568,15 +570,18 @@ public:
 		int i = curr;
 		for (curr = 0, i = 0; curr < cnt; curr++, i++)
 		{
+			//string fileName = "DeleteByName.txt";
+			//saveListText(this->elements, fileName.c_str(), cnt);
+
 			if (target == elements[curr]->getName())
 			{
 				deleteCurr();
 				curr = i;
-				this->cnt--;
 				return;
 			}
 		}
 		cout << "Target not found." << endl;
+
 		return;
 	}
 
