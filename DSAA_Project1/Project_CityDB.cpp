@@ -315,7 +315,7 @@ public:
 				return elements[i];
 			}
 		}
-		cout << "Target not found." << endl;
+		//cout << "Target not found." << endl;
 		return NULL;
 	}
 

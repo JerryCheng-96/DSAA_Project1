@@ -1,11 +1,10 @@
 
 #define _CRT_SECURE_NO_WARNINGS
-#define CLISTSIZE 1000
+#define CLISTSIZE 10000
 #define TESTROUNDS 100
-#define RANDOMSEED 1478007507
-//1478006927
-//1478006688
-#define TESTCASES 1
+#define RANDOMSEED 0
+#define PRINTSEED 0
+#define TESTCASES 0
 
 #include "Project_CityDB.cpp"
 
@@ -256,7 +255,10 @@ void testRandomSearch(LList * list, City** cityList, int testTimes)
 	{
 		time_t nowTime = time(NULL);
 		srand(nowTime);
-		cout << "The seed: " << nowTime << endl;
+		if (PRINTSEED)
+		{
+			cout << "The seed: " << nowTime << endl;
+		}
 	}
 	else
 	{
@@ -329,7 +331,10 @@ void testRandomSearch(ArrayList* list, City** cityList, int testTimes)
 	{
 		time_t nowTime = time(NULL);
 		srand(nowTime);
-		cout << "The seed: " << nowTime << endl;
+		if (PRINTSEED)
+		{
+			cout << "The seed: " << nowTime << endl;
+		}
 	}
 	else
 	{
@@ -405,7 +410,10 @@ void testRandomDelete(LList * list, City ** cityList, int testTimes)
 	{
 		time_t nowTime = time(NULL);
 		srand(nowTime);
-		cout << "The seed: " << nowTime << endl;
+		if (PRINTSEED)
+		{
+			cout << "The seed: " << nowTime << endl;
+		}
 	}
 	else
 	{
@@ -464,7 +472,10 @@ void testRandomDelete(ArrayList * list, City ** cityList, int testTimes)
 	{
 		time_t nowTime = time(NULL);
 		srand(nowTime);
-		cout << "The seed: " << nowTime << endl;
+		if (PRINTSEED)
+		{
+			cout << "The seed: " << nowTime << endl;
+		}
 	}
 	else
 	{
@@ -574,7 +585,10 @@ void testRandomSearchByCoordinates(LList * list, City ** cityList, int testTimes
 	{
 		time_t nowTime = time(NULL);
 		srand(nowTime);
-		cout << "The seed: " << nowTime << endl;
+		if (PRINTSEED)
+		{
+			cout << "The seed: " << nowTime << endl;
+		}
 	}
 	else
 	{
@@ -624,7 +638,10 @@ void testRandomSearchByCoordinates(ArrayList * list, City ** cityList, int testT
 	{
 		time_t nowTime = time(NULL);
 		srand(nowTime);
-		cout << "The seed: " << nowTime << endl;
+		if (PRINTSEED)
+		{
+			cout << "The seed: " << nowTime << endl;
+		}
 	}
 	else
 	{
@@ -676,7 +693,10 @@ void testRandomDeleteByCoordinates(LList * list, City ** cityList, int testTimes
 	{
 		time_t nowTime = time(NULL);
 		srand(nowTime);
-		cout << "The seed: " << nowTime << endl;
+		if (PRINTSEED)
+		{
+			cout << "The seed: " << nowTime << endl;
+		}
 	}
 	else
 	{
@@ -736,7 +756,10 @@ void testRandomDeleteByCoordinates(ArrayList * list, City ** cityList, int testT
 	{
 		time_t nowTime = time(NULL);
 		srand(nowTime);
-		cout << "The seed: " << nowTime << endl;
+		if (PRINTSEED)
+		{
+			cout << "The seed: " << nowTime << endl;
+		}
 	}
 	else
 	{
@@ -797,7 +820,10 @@ void testInsert(ArrayList * list, City ** cityList, int testTimes)
 	{
 		time_t nowTime = time(NULL);
 		srand(nowTime);
-		cout << "The seed: " << nowTime << endl;
+		if (PRINTSEED)
+		{
+			cout << "The seed: " << nowTime << endl;
+		}
 	}
 	else
 	{
@@ -850,7 +876,10 @@ void testInsert(LList * list, City ** cityList, int testTimes)
 	{
 		time_t nowTime = time(NULL);
 		srand(nowTime);
-		cout << "The seed: " << nowTime << endl;
+		if (PRINTSEED)
+		{
+			cout << "The seed: " << nowTime << endl;
+		}
 	}
 	else
 	{
