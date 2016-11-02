@@ -808,6 +808,10 @@ public:
 		int tailNo = cnt - 1;
 		int nowNo = (headNo + tailNo) / 2;
 
+		if (cnt == 0)
+		{
+			return NULL;
+		}
 
 		while (!(headNo == nowNo && headNo == (tailNo - 1)) && headNo != tailNo)
 		{
@@ -927,5 +931,3 @@ public:
 		return;
 	}
 };
-
-

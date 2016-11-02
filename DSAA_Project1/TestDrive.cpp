@@ -1,7 +1,7 @@
 
 #define _CRT_SECURE_NO_WARNINGS
-#define CLISTSIZE 1000
-#define TESTROUNDS 500
+#define CLISTSIZE 10000
+#define TESTROUNDS 100
 #define RANDOMSEED 0//1478049762
 #define PRINTSEED 1
 #define TESTCASES 0
@@ -172,7 +172,6 @@ void saveCityListText(LList * cityList, const char * name)
 		fp = NULL;
 	}
 }
-
 
 
 void readCityList(City * cityList[], const char * name)
@@ -951,7 +950,6 @@ void testInsert(LList * list, City ** cityList, int testTimes)
 
 	cout << "Testing insert OK. " << CLISTSIZE << ", " << TESTROUNDS << ", " << end - start << endl;
 }
-
 
 
 void main() {
