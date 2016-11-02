@@ -1,8 +1,8 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 #define CLISTSIZE 1000
-#define TESTROUNDS 998
-#define RANDOMSEED 1478049762
+#define TESTROUNDS 500
+#define RANDOMSEED 0//1478049762
 #define PRINTSEED 1
 #define TESTCASES 0
 
@@ -1026,8 +1026,6 @@ void main() {
 	
 	if (TESTCASES == 0 || TESTCASES == 1)
 	{
-		/*
-
 		//Testing AList
 		cout << "Testing AList... " << endl;
 		//Testing Search by name, Random Delete and Insert
@@ -1042,8 +1040,6 @@ void main() {
 		testRandomDeleteByCoordinates(aList3, cityList1, TESTROUNDS);
 		//aList3->deleteBy(aList3->elements[2]->getCoord());
 		cout << endl << endl;
-
-		*/
 
 		//Testing S_AList
 		cout << "Testing S_AList... " << endl;

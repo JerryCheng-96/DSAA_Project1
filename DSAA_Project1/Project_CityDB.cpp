@@ -682,8 +682,12 @@ public:
 		int nowNo = (headNo + tailNo) / 2;
 		
 		Link* nowPos = forwardTo(nowNo);
+		if (nowPos == head)
+		{
+			return NULL;
+		}
 
-		while (!(headNo == nowNo && headNo == (tailNo - 1)))
+		while (!(headNo == nowNo && headNo == (tailNo - 1)) && headNo != tailNo)
 		{
 			if (nowPos->element->getName() > target)
 			{
@@ -804,7 +808,8 @@ public:
 		int tailNo = cnt - 1;
 		int nowNo = (headNo + tailNo) / 2;
 
-		while (!(headNo == nowNo && headNo == (tailNo - 1)))
+
+		while (!(headNo == nowNo && headNo == (tailNo - 1)) && headNo != tailNo)
 		{
 			if (elements[nowNo]->getName() > target)
 			{
