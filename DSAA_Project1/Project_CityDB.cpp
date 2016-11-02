@@ -203,7 +203,8 @@ public:
 		{
 			for (reset(); curr->next != NULL; curr = curr->next)
 			{
-				if (curr->next->element->getX() == target[0] && curr->next->element->getY() == target[1])
+				if (curr->next->element->getCoord()[0] == target[0] &&
+					curr->next->element->getCoord()[1] == target[1])
 				{
 					deleteCurr();
 					return;
@@ -886,7 +887,7 @@ public:
 	{
 		for (curr = 0; curr < cnt; curr++)
 		{
-			if (target[0] == elements[curr]->getX() && target[1] == elements[curr]->getY())
+			if (target[0] == elements[curr]->getCoord()[0] && target[1] == elements[curr]->getCoord()[1])
 			{
 				deleteCurr();
 				return;

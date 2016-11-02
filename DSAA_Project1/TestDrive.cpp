@@ -276,7 +276,7 @@ void testRandomSearch(LList * list, City** cityList, int testTimes)
 			if (randNo == randList[j])
 			{
 				randNo = rand() % CLISTSIZE;
-				j = 0;
+				j = -1;
 				continue;
 			}
 		}
@@ -352,7 +352,7 @@ void testRandomSearch(ArrayList* list, City** cityList, int testTimes)
 			if (randNo == randList[j])
 			{
 				randNo = rand() % CLISTSIZE;
-				j = 0;
+				j = -1;
 				continue;
 			}
 		}
@@ -437,7 +437,7 @@ void testRandomDelete(LList * list, City ** cityList, int testTimes)
 			if (randNo == randList[j])
 			{
 				randNo = rand() % CLISTSIZE;
-				j = 0;
+				j = -1;
 				continue;
 			}
 		}
@@ -618,7 +618,7 @@ void testRandomSearchByCoordinates(LList * list, City ** cityList, int testTimes
 			if (randNo == randList[j])
 			{
 				randNo = rand() % CLISTSIZE;
-				j = 0;
+				j = -1;
 				continue;
 			}
 		}
@@ -671,7 +671,7 @@ void testRandomSearchByCoordinates(ArrayList * list, City ** cityList, int testT
 			if (randNo == randList[j])
 			{
 				randNo = rand() % CLISTSIZE;
-				j = 0;
+				j = -1;
 				continue;
 			}
 		}
@@ -732,7 +732,7 @@ void testRandomDeleteByCoordinates(LList * list, City ** cityList, int testTimes
 			if (randNo == randList[j])
 			{
 				randNo = rand() % CLISTSIZE;
-				j = 0;
+				j = -1;
 				continue;
 			}
 		}
@@ -795,7 +795,7 @@ void testRandomDeleteByCoordinates(ArrayList * list, City ** cityList, int testT
 			if (randNo == randList[j])
 			{
 				randNo = rand() % CLISTSIZE;
-				j = 0;
+				j = -1;
 				continue;
 			}
 		}
@@ -812,6 +812,27 @@ void testRandomDeleteByCoordinates(ArrayList * list, City ** cityList, int testT
 			elementFound->print();
 			return;
 		}
+
+		/*
+		stringstream strm;
+		string str;
+		string fileName = "DelNameAfter_";
+		strm << i;
+		strm >> str;
+		fileName += str;
+		fileName += "_";
+		strm.clear();
+		strm << elementDeleted[0];
+		strm >> str;
+		fileName += str;
+		fileName += "_";
+		strm.clear();
+		strm << elementDeleted[1];
+		strm >> str;
+		fileName += str;
+		fileName += "_.txt";
+		list->saveListText(list->elements, fileName.c_str(), list->cnt);
+		*/
 	}
 	end = clock();
 
@@ -853,7 +874,7 @@ void testInsert(ArrayList * list, City ** cityList, int testTimes)
 			if (randNo == randList[j])
 			{
 				randNo = rand() % CLISTSIZE;
-				j = 0;
+				j = -1;
 				continue;
 			}
 		}
@@ -909,7 +930,7 @@ void testInsert(LList * list, City ** cityList, int testTimes)
 			if (randNo == randList[j])
 			{
 				randNo = rand() % CLISTSIZE;
-				j = 0;
+				j = -1;
 				continue;
 			}
 		}
