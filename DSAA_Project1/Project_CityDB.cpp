@@ -877,7 +877,7 @@ public:
 		}
 		if (curr != -1)
 		{
-			this->cnt--;
+			//this->cnt--;
 			deleteCurr();
 		}
 	}

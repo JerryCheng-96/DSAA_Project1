@@ -1,9 +1,9 @@
 
 #define _CRT_SECURE_NO_WARNINGS
-#define CLISTSIZE 10000
-#define TESTROUNDS 100
-#define RANDOMSEED 0
-#define PRINTSEED 0
+#define CLISTSIZE 1000
+#define TESTROUNDS 998
+#define RANDOMSEED 1478049762
+#define PRINTSEED 1
 #define TESTCASES 0
 
 #include "Project_CityDB.cpp"
@@ -499,11 +499,12 @@ void testRandomDelete(ArrayList * list, City ** cityList, int testTimes)
 			if (randNo == randList[j])
 			{
 				randNo = rand() % CLISTSIZE;
-				j = 0;
+				j = -1;
 				continue;
 			}
 		}
 		randList[i] = randNo;
+
 
 		elementDeleted = cityList[randNo]->getName();
 		elementFound = list->searchBy(elementDeleted);
@@ -525,8 +526,19 @@ void testRandomDelete(ArrayList * list, City ** cityList, int testTimes)
 				elementFound->print();
 				return;
 			}
-			//string fileName = "DelNameAfter_" + elementDeleted + "_.txt";
-			//list->saveListText(list->elements, fileName.c_str(), list->cnt);
+
+			/*
+			stringstream strm;
+			strm << i;
+			string str;
+			strm >> str;
+			string str1;
+			strm.clear();
+			strm << randNo;
+			strm >> str1;
+			string fileName = "DelNameAfter_" + str + "_" + str1 + "_" + elementDeleted + "_.txt";
+			list->saveListText(list->elements, fileName.c_str(), list->cnt);
+			*/
 		}
 	}
 	end = clock();
@@ -993,6 +1005,8 @@ void main() {
 	
 	if (TESTCASES == 0 || TESTCASES == 1)
 	{
+		/*
+
 		//Testing AList
 		cout << "Testing AList... " << endl;
 		//Testing Search by name, Random Delete and Insert
@@ -1007,6 +1021,8 @@ void main() {
 		testRandomDeleteByCoordinates(aList3, cityList1, TESTROUNDS);
 		//aList3->deleteBy(aList3->elements[2]->getCoord());
 		cout << endl << endl;
+
+		*/
 
 		//Testing S_AList
 		cout << "Testing S_AList... " << endl;
