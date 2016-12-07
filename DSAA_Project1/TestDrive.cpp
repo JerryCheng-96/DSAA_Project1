@@ -1,10 +1,10 @@
 
 #define _CRT_SECURE_NO_WARNINGS
-#define CLISTSIZE 10000
-#define TESTROUNDS 100
-#define RANDOMSEED 0//1478049762
-#define PRINTSEED 1
-#define TESTCASES 0
+#define CLISTSIZE 10000		// The test size
+#define TESTROUNDS 100		// The test rounds
+#define RANDOMSEED 0		// The seed for generating the random numbers. If 0, use the current time.
+#define PRINTSEED 1			// Whether to print out the seed
+#define TESTCASES 0			// Control the tests to run
 
 #include "Project_CityDB.cpp"
 
@@ -46,7 +46,9 @@ void testRandomDeleteByCoordinates(ArrayList* list, City** cityList, int testTim
 void testInsert(ArrayList* list, City** cityList, int testTimes);
 void testInsert(LList* list, City** cityList, int testTimes);
 
-
+//
+// The Function for generating random city list with random names and coordinates
+//
 void genRandomCities(City * cityList[], int n)
 {
 	char nowName[11] = { '\0' };
@@ -74,6 +76,9 @@ void genRandomCities(City * cityList[], int n)
 	}
 }
 
+//
+// The function for generating City DataBase and save it to files.
+//
 void genCityDB(const char * name)
 {
 	City * cityList[CLISTSIZE];
@@ -81,6 +86,9 @@ void genCityDB(const char * name)
 	saveCityList(cityList, name);
 }
 
+//
+// The function for generating all test databases, ordered and un-ordered
+//
 void genAllTestDB()
 {
 	string* name1 = new string("CityList1_" + to_string(CLISTSIZE) + ".dat");
@@ -103,17 +111,19 @@ void genAllTestDB()
 
 }
 
-
+//
+// The function used to save cityList to file
+//
 void saveCityList(City * cityList[], const char * name)
 {
-	FILE* fp = fopen(name, "wb");
+	FILE* fp = fopen(name, "wb");	// Initializing the file pointer
 
 	for (int i = 0; i < CLISTSIZE; i++)
 	{
-		fwrite(cityList[i], sizeof(City), 1, fp);
+		fwrite(cityList[i], sizeof(City), 1, fp);	// Writing the city info
 	}
 
-	if (fp != NULL)
+	if (fp != NULL)		// Close file
 	{
 		fclose(fp);
 		fp = NULL;
@@ -121,6 +131,9 @@ void saveCityList(City * cityList[], const char * name)
 
 }
 
+//
+// The save city function for linked lists
+//
 void saveCityList(LList * cityList, const char * name)
 {
 	FILE* fp = fopen(name, "wb");
@@ -173,7 +186,9 @@ void saveCityListText(LList * cityList, const char * name)
 	}
 }
 
-
+//
+// The function for reading the city info to array-based
+//
 void readCityList(City * cityList[], const char * name)
 {
 	FILE* fp = NULL;
@@ -195,6 +210,9 @@ void readCityList(City * cityList[], const char * name)
 	}
 }
 
+//
+// The function for reading the city info to linked list
+//
 void readCityList(LList * cityList, const char * name)
 {
 	FILE* fp = NULL;
@@ -241,7 +259,9 @@ void printList(ArrayList* list) {
 	}
 }
 
-
+//
+// Testing random search in linked lists
+//
 void testRandomSearch(LList * list, City** cityList, int testTimes)
 {
 	int randNo;
@@ -295,6 +315,9 @@ void testRandomSearch(LList * list, City** cityList, int testTimes)
 	cout << "Name Random Search OK. " << CLISTSIZE << ", " << TESTROUNDS << ", " << end - start << endl;
 }
 
+//
+// Testing search of the head/tail items in linked list.
+//
 void testHTSearch(LList * list, City** cityList)
 {
 	Link* elementFound1 = NULL;
@@ -318,6 +341,9 @@ void testHTSearch(LList * list, City** cityList)
 	}
 }
 
+//
+// Testing search of the random items in array-based
+//
 void testRandomSearch(ArrayList* list, City** cityList, int testTimes)
 {
 	int randNo;
@@ -372,6 +398,9 @@ void testRandomSearch(ArrayList* list, City** cityList, int testTimes)
 	cout << "Name Random Search OK. " << CLISTSIZE << ", " << TESTROUNDS << ", " << end - start << endl;
 }
 
+//
+// Testing search of the head/tail items in array-based.
+//
 void testHTSearch(ArrayList* list, City** cityList)
 {
 	City* elementFound1 = NULL;
@@ -395,7 +424,9 @@ void testHTSearch(ArrayList* list, City** cityList)
 	}
 }
 
-
+//
+// Testing delete of the random items in linked list.
+//
 void testRandomDelete(LList * list, City ** cityList, int testTimes)
 {
 	int randNo;
@@ -458,6 +489,9 @@ void testRandomDelete(LList * list, City ** cityList, int testTimes)
 	cout << "Testing name delete OK. " << CLISTSIZE << ", " << TESTROUNDS << ", " << end - start << endl;
 }
 
+//
+// Testing delete of the random items in array-based.
+//
 void testRandomDelete(ArrayList * list, City ** cityList, int testTimes)
 {
 	int randNo;
@@ -545,6 +579,9 @@ void testRandomDelete(ArrayList * list, City ** cityList, int testTimes)
 	cout << "Testing name delete OK. " << CLISTSIZE << ", " << TESTROUNDS << ", " << end - start << endl;
 }
 
+//
+// Testing delete of the head/tail items in linked list.
+//
 void testHTDelete(LList * list, City ** cityList)
 {
 	Link* elementFound1 = NULL;
@@ -564,6 +601,9 @@ void testHTDelete(LList * list, City ** cityList)
 	}
 }
 
+//
+// Testing delete of the head/tail items in array-based
+//
 void testHTDelete(ArrayList * list, City ** cityList)
 {
 	City* elementFound1 = NULL;
@@ -583,7 +623,9 @@ void testHTDelete(ArrayList * list, City ** cityList)
 	}
 }
 
-
+//
+// Testing search of the head/tail items in linked list by coordinates.
+//
 void testRandomSearchByCoordinates(LList * list, City ** cityList, int testTimes)
 {
 	int randNo;
@@ -637,6 +679,9 @@ void testRandomSearchByCoordinates(LList * list, City ** cityList, int testTimes
 	cout << "Coordinates Random Search OK. " << CLISTSIZE << ", " << TESTROUNDS << ", " << end - start << endl;
 }
 
+//
+// Testing search of the head/tail items in linked list by coordinates.
+//
 void testRandomSearchByCoordinates(ArrayList * list, City ** cityList, int testTimes)
 {
 	int randNo;
@@ -691,6 +736,9 @@ void testRandomSearchByCoordinates(ArrayList * list, City ** cityList, int testT
 	cout << "Coordinates Random Search OK. " << CLISTSIZE << ", " << TESTROUNDS << ", " << end - start << endl;
 }
 
+//
+// Testing delete of the random items in linked list by coordinates.
+//
 void testRandomDeleteByCoordinates(LList * list, City ** cityList, int testTimes)
 {
 	int randNo;
@@ -754,6 +802,9 @@ void testRandomDeleteByCoordinates(LList * list, City ** cityList, int testTimes
 	cout << "Testing coordinates delete OK. " << CLISTSIZE << ", " << TESTROUNDS << ", " << end - start << endl;
 }
 
+//
+// Testing delete of the random items in array-based by coordinates.
+//
 void testRandomDeleteByCoordinates(ArrayList * list, City ** cityList, int testTimes)
 {
 	int randNo;
@@ -838,7 +889,9 @@ void testRandomDeleteByCoordinates(ArrayList * list, City ** cityList, int testT
 	cout << "Testing coordinates delete OK. " << CLISTSIZE << ", " << TESTROUNDS << ", " << end - start << endl;
 }
 
-
+//
+// Testing insert of array-based
+//
 void testInsert(ArrayList * list, City ** cityList, int testTimes)
 {
 	int randNo;
@@ -895,6 +948,9 @@ void testInsert(ArrayList * list, City ** cityList, int testTimes)
 	cout << "Testing insert OK. " << CLISTSIZE << ", " << TESTROUNDS << ", " << end - start << endl;
 }
 
+//
+// Testing insert of linked list
+//
 void testInsert(LList * list, City ** cityList, int testTimes)
 {
 	int randNo;
